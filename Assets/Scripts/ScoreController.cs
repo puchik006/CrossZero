@@ -5,9 +5,9 @@ using UnityEngine;
 public class ScoreController
 {
     private ScoreView _scoreView;
-    private ScoreModel _scoreModel;
+    private IScoreModel _scoreModel;
 
-    public ScoreController(ScoreView scoreView, ScoreModel scoreModel)
+    public ScoreController(ScoreView scoreView, IScoreModel scoreModel)
     {
         _scoreView = scoreView;
         _scoreModel = scoreModel;

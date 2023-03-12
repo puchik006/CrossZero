@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private RoundModel _roundModel;
 
-    private ScoreModel _scoreModel;
+    private IScoreModel _scoreModel;
     [SerializeField] private ScoreView _scoreView;
     private ScoreController _scoreController;
     
