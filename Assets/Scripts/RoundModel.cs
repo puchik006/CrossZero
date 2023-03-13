@@ -14,8 +14,7 @@ public class RoundModel
 
     private void OnFieldsChange(int fieldNumber, FieldValue fieldValue)
     {
-        var data = _fieldModel.Data;
-        CheckGameState(data);
+        CheckGameState(_fieldModel.Data);
     }
 
     private void CheckGameState(FieldValue[] data)

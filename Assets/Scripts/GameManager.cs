@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     private IScoreModel _scoreModel;
     [SerializeField] private ScoreView _scoreView;
     private ScoreController _scoreController;
+
+    private TextMessageModel _textMessageModel;
+    [SerializeField] private TextMessageView _textMessageView;
+    private TextMessageController _textMessageController;
     
     
     void Start()
@@ -24,5 +28,8 @@ public class GameManager : MonoBehaviour
 
         _scoreModel = new ScoreModel();
         _scoreController = new ScoreController(_scoreView,_scoreModel);
+
+        _textMessageModel = new TextMessageModel();
+        _textMessageController = new TextMessageController(_textMessageView, _textMessageModel);
     }
 }
