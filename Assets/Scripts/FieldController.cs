@@ -20,6 +20,8 @@ public class FieldController
         _fieldsModel.OnFieldValueChanged += ChangeView;
         _fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSign);
 
+        PlayerNetwork.OnGetClientFieldInfo += ChangeFieldSign;
+
        RoundModel.OnRoundEnd += ClearFields;
     }
 

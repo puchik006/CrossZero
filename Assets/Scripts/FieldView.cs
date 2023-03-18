@@ -1,11 +1,13 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using Unity.Netcode;
 
 public class FieldView : MonoBehaviour
 {
     [SerializeField] private int _fieldNumber;
-    private SpriteRenderer _spriteRenderer;
+    private Image _image;
     private Dictionary<FieldValue,Color> _colorForValue = new Dictionary<FieldValue, Color>()
     {
         {FieldValue.Empty,Color.white},
@@ -13,24 +15,27 @@ public class FieldView : MonoBehaviour
         {FieldValue.Zero,Color.blue},
     };
     public event Action<int> OnFieldTouched;
+    public static event Action<int> OnButtonClick;
 
     private void Start()
     {
-        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        _image = GetComponent<Image>();
+        gameObject.GetComponent<Button>().onClick.AddListener(ButtonClick);
     }
 
-    private void OnMouseDown()
+    private void ButtonClick()
     {
         OnFieldTouched?.Invoke(_fieldNumber);
+        OnButtonClick?.Invoke(_fieldNumber);
     }
-
+    
     public void ChangeFieldColor(FieldValue fieldValue)
     {
-        _spriteRenderer.color = _colorForValue[fieldValue];
+        _image.color = _colorForValue[fieldValue];
     }
 
     public void ClearField()
     {
-        _spriteRenderer.color = Color.white;
+        _image.color = Color.white;
     }
 }
