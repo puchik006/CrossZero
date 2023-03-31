@@ -11,14 +11,14 @@ using UnityEngine;
 public class CrossZerroLobby : MonoBehaviour
 {
     private Lobby _hostLobby;
-    private Lobby _joinLobby;
+    private Lobby _joinedLobby;
     private float _heartbeatTimer;
     private float _lobbyUpdateTimer;
     private string _playerName;
 
     private const string KEY_START_GAME = "relayCode";
 
-    private static event Action OnGameStart;
+    public static event Action OnGameStart;
 
     [SerializeField] private CrossZeroRelay _relay; //Replace this with using of relay singletone
 
@@ -37,7 +37,7 @@ public class CrossZerroLobby : MonoBehaviour
         try
         {
             var querryResponce = await Lobbies.Instance.QueryLobbiesAsync();
-            
+
             if (querryResponce.Results.Count == 0)
             {
                 CreateLobby();
@@ -52,7 +52,7 @@ public class CrossZerroLobby : MonoBehaviour
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-        }   
+        }
     }
 
     public async void PrintLobbyPlayers()
@@ -64,7 +64,7 @@ public class CrossZerroLobby : MonoBehaviour
             PrintPlayers(querryResponce.Results[0]);
         }
 
-        if (_joinLobby != null)
+        if (_joinedLobby != null)
         {
             PrintPlayers(querryResponce.Results[0]);
         }
@@ -87,11 +87,6 @@ public class CrossZerroLobby : MonoBehaviour
                 _heartbeatTimer = heartbeatTimerMax;
 
                 await LobbyService.Instance.SendHeartbeatPingAsync(_hostLobby.Id);
-
-                //if (_hostLobby.Players.Count == 2)
-                //{
-                //    StartGame();
-                //}
             }
         }
     }
@@ -106,15 +101,16 @@ public class CrossZerroLobby : MonoBehaviour
             {
                 IsPrivate = false,
                 Player = GetPlayer(),
-                Data = new Dictionary<string, DataObject> 
+                Data = new Dictionary<string, DataObject>
                 {
                     {KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member,"0") }
                 }
             };
 
-            var lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers,lobbyOptions);
+            var lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, lobbyOptions);
 
             _hostLobby = lobby;
+            _joinedLobby = _hostLobby;
         }
         catch (LobbyServiceException e)
         {
@@ -133,7 +129,7 @@ public class CrossZerroLobby : MonoBehaviour
 
             var joinLobby = await LobbyService.Instance.QuickJoinLobbyAsync(quickJoinLobbyOptions);
 
-            _joinLobby = joinLobby;
+            _joinedLobby = joinLobby;
         }
         catch (LobbyServiceException e)
         {
@@ -160,11 +156,11 @@ public class CrossZerroLobby : MonoBehaviour
                 await LobbyService.Instance.RemovePlayerAsync(_hostLobby.Id, AuthenticationService.Instance.PlayerId);
             }
 
-            if (_joinLobby != null)
+            if (_joinedLobby != null)
             {
-                await LobbyService.Instance.RemovePlayerAsync(_joinLobby.Id, AuthenticationService.Instance.PlayerId);
+                await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
             }
-            
+
         }
         catch (LobbyServiceException e)
         {
@@ -185,7 +181,7 @@ public class CrossZerroLobby : MonoBehaviour
 
     private async void HandleLobbyPollForUpdates()
     {
-        if (_joinLobby != null)
+        if (_joinedLobby != null)
         {
             _lobbyUpdateTimer -= Time.deltaTime;
             if (_lobbyUpdateTimer < 0f)
@@ -193,15 +189,32 @@ public class CrossZerroLobby : MonoBehaviour
                 float lobbyUpdateTimerMax = 1.5f;
                 _lobbyUpdateTimer = lobbyUpdateTimerMax;
 
-                Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinLobby.Id);
-                _joinLobby = lobby;
+                Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id);
+                _joinedLobby = lobby;
 
-                //if (_joinLobby.Data[KEY_START_GAME].Value != "0")
-                //{
-                //    _relay.JoinRelay(_joinLobby.Data[KEY_START_GAME].Value);
-                //}
+                if (_joinedLobby.Data[KEY_START_GAME].Value != "0" && _hostLobby == null)
+                {
+                    Debug.Log("client connet to relay");
+                    _relay.JoinRelay(_joinedLobby.Data[KEY_START_GAME].Value);
+                    OnGameStart!.Invoke();
+                    _joinedLobby = null;
+                }
+
+                if (_hostLobby != null)
+                {
+                    if (_joinedLobby.Players.Count == 2)
+                    {
+                        Debug.Log("2 players connected");
+                        StartGame();
+                    }
+                    //_joinedLobby = null;
+                }
             }
+
+            
         }
+
+
     }
 
     public async void StartGame()
@@ -221,8 +234,9 @@ public class CrossZerroLobby : MonoBehaviour
                 });
 
                 _hostLobby = lobby;
+                _joinedLobby = _hostLobby;
 
-                //OnGameStart!.Invoke();
+                OnGameStart!.Invoke();
 
                 Debug.Log("START GAME");
             }

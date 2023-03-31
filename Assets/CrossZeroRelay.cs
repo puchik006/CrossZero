@@ -13,11 +13,12 @@ using System.Threading.Tasks;
 
 public class CrossZeroRelay : MonoBehaviour
 {
+ 
     public async Task<string> CreateRelay()
     {
         try
         {
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(2);
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 

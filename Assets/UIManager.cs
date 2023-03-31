@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        //CrossZerroLobby.OnGameStart += SetActiveGameScreen;
+        CrossZerroLobby.OnGameStart += SetActiveGameScreen;
     }
 
     private void SetActiveGameScreen()
