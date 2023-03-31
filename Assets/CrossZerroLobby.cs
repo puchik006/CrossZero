@@ -16,20 +16,18 @@ public class CrossZerroLobby : MonoBehaviour
     private float _lobbyUpdateTimer;
     private string _playerName;
 
+    private const string KEY_START_GAME = "relayCode";
+
+    private static event Action OnGameStart;
+
+    [SerializeField] private CrossZeroRelay _relay; //Replace this with using of relay singletone
+
     public async void StartLobbyGame()
     {
         await UnityServices.InitializeAsync();
-
-        AuthenticationService.Instance.SignedIn += () =>
-        {
-            //Debug.Log("ID signed: " + AuthenticationService.Instance.PlayerId);
-        };
-
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-        _playerName = "Bu" + UnityEngine.Random.Range(1, 99);
-
-        //Debug.Log(_playerName);
+        _playerName = "Bu" + UnityEngine.Random.Range(1, 99); // take name from player settings
 
         StartGameWithInternet();
     }
@@ -39,7 +37,7 @@ public class CrossZerroLobby : MonoBehaviour
         try
         {
             var querryResponce = await Lobbies.Instance.QueryLobbiesAsync();
-
+            
             if (querryResponce.Results.Count == 0)
             {
                 CreateLobby();
@@ -63,13 +61,11 @@ public class CrossZerroLobby : MonoBehaviour
 
         if (_hostLobby != null)
         {
-            //PrintPlayers(_hostLobby);
             PrintPlayers(querryResponce.Results[0]);
         }
 
         if (_joinLobby != null)
         {
-            //PrintPlayers(_joinLobby);
             PrintPlayers(querryResponce.Results[0]);
         }
     }
@@ -91,6 +87,11 @@ public class CrossZerroLobby : MonoBehaviour
                 _heartbeatTimer = heartbeatTimerMax;
 
                 await LobbyService.Instance.SendHeartbeatPingAsync(_hostLobby.Id);
+
+                //if (_hostLobby.Players.Count == 2)
+                //{
+                //    StartGame();
+                //}
             }
         }
     }
@@ -104,33 +105,16 @@ public class CrossZerroLobby : MonoBehaviour
             CreateLobbyOptions lobbyOptions = new CreateLobbyOptions()
             {
                 IsPrivate = false,
-                Player = GetPlayer()
+                Player = GetPlayer(),
+                Data = new Dictionary<string, DataObject> 
+                {
+                    {KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member,"0") }
+                }
             };
 
             var lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers,lobbyOptions);
 
             _hostLobby = lobby;
-
-            //Debug.Log("Created lobby: " + lobby.Name + " max players " + lobby.MaxPlayers + " lobby ID: " + lobby.Id + " lobby code: " + lobby.LobbyCode);
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.Log(e);
-        }
-    }
-
-    public async void ListLobbies()
-    {
-        try
-        {
-            var querryResponce = await Lobbies.Instance.QueryLobbiesAsync();
-
-            Debug.Log("Lobbies found " + querryResponce.Results.Count);
-
-            foreach (var lobby in querryResponce.Results)
-            {
-                Debug.Log(lobby.Name + " " + lobby.MaxPlayers);
-            }
         }
         catch (LobbyServiceException e)
         {
@@ -162,8 +146,8 @@ public class CrossZerroLobby : MonoBehaviour
         Debug.Log("Players in looby: " + lobby.Name + " is " + lobby.Players.Count);
         foreach (Player player in lobby.Players)
         {
-            //Debug.Log("Player: " + player.Id);
-            Debug.Log("Player: " + player.Id + " player name: " + player.Data["PlayerName"].Value);
+            Debug.Log("Player: " + player.Id + " player name: " + player.Data["PlayerName"].Value + " relay code "
+                + lobby.Data[KEY_START_GAME].Value);
         }
     }
 
@@ -211,12 +195,41 @@ public class CrossZerroLobby : MonoBehaviour
 
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinLobby.Id);
                 _joinLobby = lobby;
+
+                //if (_joinLobby.Data[KEY_START_GAME].Value != "0")
+                //{
+                //    _relay.JoinRelay(_joinLobby.Data[KEY_START_GAME].Value);
+                //}
             }
         }
     }
 
-    private void OnApplicationQuit()
+    public async void StartGame()
     {
-        LeaveLobby();
+        if (_hostLobby != null)
+        {
+            try
+            {
+                string relayCode = await _relay.CreateRelay();
+
+                Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(_hostLobby.Id, new UpdateLobbyOptions 
+                { 
+                    Data = new Dictionary<string, DataObject>
+                    {
+                        {KEY_START_GAME,new DataObject(DataObject.VisibilityOptions.Member, relayCode)},
+                    }
+                });
+
+                _hostLobby = lobby;
+
+                //OnGameStart!.Invoke();
+
+                Debug.Log("START GAME");
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log(e);
+            }
+        }
     }
 }
