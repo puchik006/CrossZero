@@ -19,4 +19,16 @@ public class UIManager : MonoBehaviour
         _mainMenuScreen.SetActive(false);
         _multiplayerScreen.SetActive(false);
     }
+
+    private static string _message = "LOG: ";
+
+    public static void GUIMessage(string message)
+    {
+        _message = _message + "\n"  + message;
+    }
+
+    private void OnGUI()
+    {
+        _message = GUI.TextArea(new Rect(10, 10, 200, 50), _message, 200);
+    }
 }

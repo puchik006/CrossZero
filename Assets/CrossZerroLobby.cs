@@ -20,7 +20,9 @@ public class CrossZerroLobby : MonoBehaviour
 
     public static event Action OnGameStart;
 
-    [SerializeField] private CrossZeroRelay _relay; //Replace this with using of relay singletone
+    private bool _isRelayExist = false;
+
+    [SerializeField] private CrossZeroRelay _relay; 
 
     public async void StartLobbyGame()
     {
@@ -29,10 +31,10 @@ public class CrossZerroLobby : MonoBehaviour
 
         _playerName = "Bu" + UnityEngine.Random.Range(1, 99); // take name from player settings
 
-        StartGameWithInternet();
+        CreateOrJoinLobby();
     }
 
-    private async void StartGameWithInternet()
+    private async void CreateOrJoinLobby()
     {
         try
         {
@@ -41,12 +43,12 @@ public class CrossZerroLobby : MonoBehaviour
             if (querryResponce.Results.Count == 0)
             {
                 CreateLobby();
-                Debug.Log("Create lobby");
+                UIManager.GUIMessage("Create lobby");
             }
             else
             {
                 QuickJoinLobby();
-                Debug.Log("Join lobby");
+                UIManager.GUIMessage("Join lobby");
             }
         }
         catch (LobbyServiceException e)
@@ -192,34 +194,35 @@ public class CrossZerroLobby : MonoBehaviour
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id);
                 _joinedLobby = lobby;
 
-                if (_joinedLobby.Data[KEY_START_GAME].Value != "0" && _hostLobby == null)
+                if (_joinedLobby.Data[KEY_START_GAME].Value != "0")
                 {
-                    Debug.Log("client connet to relay");
-                    _relay.JoinRelay(_joinedLobby.Data[KEY_START_GAME].Value);
+                    if (!IsLobbyHost())
+                    {
+                        UIManager.GUIMessage("Client connecting to relay");
+                        _relay.JoinRelay(_joinedLobby.Data[KEY_START_GAME].Value);
+                    }
+
                     OnGameStart!.Invoke();
                     _joinedLobby = null;
+
                 }
 
-                if (_hostLobby != null)
+                if (IsLobbyHost())
                 {
-                    if (_joinedLobby.Players.Count == 2)
+                    if (_joinedLobby.Players.Count == 2 && !_isRelayExist)
                     {
-                        Debug.Log("2 players connected");
-                        StartGame();
+                        _isRelayExist = true;
+                        UIManager.GUIMessage("Second player connected");
+                        StartRelay();
                     }
-                    //_joinedLobby = null;
                 }
             }
-
-            
         }
-
-
     }
 
-    public async void StartGame()
+    public async void StartRelay()
     {
-        if (_hostLobby != null)
+        if (IsLobbyHost())
         {
             try
             {
@@ -236,14 +239,17 @@ public class CrossZerroLobby : MonoBehaviour
                 _hostLobby = lobby;
                 _joinedLobby = _hostLobby;
 
-                OnGameStart!.Invoke();
-
-                Debug.Log("START GAME");
+                UIManager.GUIMessage("Start game");
             }
             catch (LobbyServiceException e)
             {
                 Debug.Log(e);
             }
         }
+    }
+
+    public bool IsLobbyHost()
+    {
+        return _joinedLobby != null && _joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
     }
 }
