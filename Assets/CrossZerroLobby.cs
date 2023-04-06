@@ -21,6 +21,10 @@ public class CrossZerroLobby : MonoBehaviour
     public static event Action OnGameStart;
 
     private bool _isRelayExist = false;
+    private bool _isSecondPlayerConneted = false;
+
+    private const int MAX_PLAYERS = 2;
+    private const string PROTOCOL = "dtls";
 
     [SerializeField] private CrossZeroRelay _relay; 
 
@@ -43,17 +47,16 @@ public class CrossZerroLobby : MonoBehaviour
             if (querryResponce.Results.Count == 0)
             {
                 CreateLobby();
-                UIManager.GUIMessage("Create lobby");
             }
             else
             {
                 QuickJoinLobby();
-                UIManager.GUIMessage("Join lobby");
             }
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
+            UIManager.GUIMessage(e.ToString());
         }
     }
 
@@ -118,6 +121,8 @@ public class CrossZerroLobby : MonoBehaviour
         {
             Debug.Log(e);
         }
+
+        UIManager.GUIMessage("Create lobby " + _joinedLobby.Name + " player name " + _playerName);
     }
 
     private async void QuickJoinLobby()
@@ -137,14 +142,16 @@ public class CrossZerroLobby : MonoBehaviour
         {
             Debug.Log(e);
         }
+
+        UIManager.GUIMessage("Join lobby" + _joinedLobby.Name + " player name " + _playerName);
     }
 
     private void PrintPlayers(Lobby lobby)
     {
-        Debug.Log("Players in looby: " + lobby.Name + " is " + lobby.Players.Count);
+        UIManager.GUIMessage("Players in looby: " + lobby.Name + " is " + lobby.Players.Count);
         foreach (Player player in lobby.Players)
         {
-            Debug.Log("Player: " + player.Id + " player name: " + player.Data["PlayerName"].Value + " relay code "
+            UIManager.GUIMessage("Player: " + player.Id + " player name: " + player.Data["PlayerName"].Value + " relay code "
                 + lobby.Data[KEY_START_GAME].Value);
         }
     }
@@ -194,12 +201,13 @@ public class CrossZerroLobby : MonoBehaviour
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(_joinedLobby.Id);
                 _joinedLobby = lobby;
 
-                if (_joinedLobby.Data[KEY_START_GAME].Value != "0")
+                if (_joinedLobby.Data[KEY_START_GAME].Value != "0" && !_isSecondPlayerConneted)
                 {
                     if (!IsLobbyHost())
                     {
-                        UIManager.GUIMessage("Client connecting to relay");
                         _relay.JoinRelay(_joinedLobby.Data[KEY_START_GAME].Value);
+                        UIManager.GUIMessage("Client connecting to relay: " + _joinedLobby.Data[KEY_START_GAME].Value.ToString());
+                        _isSecondPlayerConneted = true;
                     }
 
                     OnGameStart!.Invoke();
@@ -212,7 +220,7 @@ public class CrossZerroLobby : MonoBehaviour
                     if (_joinedLobby.Players.Count == 2 && !_isRelayExist)
                     {
                         _isRelayExist = true;
-                        UIManager.GUIMessage("Second player connected");
+                        UIManager.GUIMessage($"Second player {_joinedLobby.Players[1].Data["PlayerName"].Value} connected to lobby: " + _joinedLobby.Name);
                         StartRelay();
                     }
                 }
@@ -228,7 +236,7 @@ public class CrossZerroLobby : MonoBehaviour
             {
                 string relayCode = await _relay.CreateRelay();
 
-                Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(_hostLobby.Id, new UpdateLobbyOptions 
+                Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(_joinedLobby.Id, new UpdateLobbyOptions 
                 { 
                     Data = new Dictionary<string, DataObject>
                     {
@@ -238,12 +246,10 @@ public class CrossZerroLobby : MonoBehaviour
 
                 _hostLobby = lobby;
                 _joinedLobby = _hostLobby;
-
-                UIManager.GUIMessage("Start game");
             }
             catch (LobbyServiceException e)
             {
-                Debug.Log(e);
+                UIManager.GUIMessage(e.ToString());
             }
         }
     }

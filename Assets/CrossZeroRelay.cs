@@ -10,18 +10,35 @@ using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
 using TMPro;
 using System.Threading.Tasks;
+using UnityEngine.Assertions.Must;
+using System;
 
 public class CrossZeroRelay : MonoBehaviour
 {
+    private const int MAX_PLAYERS = 2;
+
+    private static RelayServerData _serverData;
+
+    private static event Action OnRelayConnected;
+
+    private void Start()
+    {
+        OnRelayConnected += StartClient;
+    }
+
     public async Task<string> CreateRelay()
     {
         try
         {
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(MAX_PLAYERS);
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
             RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
+
+            _serverData = relayServerData;
+
+            UIManager.GUIMessage("Start relay with code: " + joinCode);
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
@@ -31,12 +48,12 @@ public class CrossZeroRelay : MonoBehaviour
         }
         catch (RelayServiceException e)
         {
-            Debug.Log(e);
+            UIManager.GUIMessage(e.ToString());
             return null;
         }
     }
 
-    public async void JoinRelay(string relayCode)
+    public async Task JoinRelay(string relayCode)
     {
         try
         {
@@ -44,13 +61,28 @@ public class CrossZeroRelay : MonoBehaviour
 
             RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
 
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+            //NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
-            NetworkManager.Singleton.StartClient();
+            //NetworkManager.Singleton.StartClient();
         }
         catch (RelayServiceException e)
         {
-            Debug.Log(e);
+            UIManager.GUIMessage(e.ToString());
         }
+
+        if (JoinRelay(relayCode).IsCompleted)
+        {
+            OnRelayConnected?.Invoke();
+            UIManager.GUIMessage("SSSSSS");
+        }
+    }
+
+    public static void StartClient()
+    {
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(_serverData);
+
+        NetworkManager.Singleton.StartClient();
+
+        UIManager.GUIMessage("CLient start");
     }
 }

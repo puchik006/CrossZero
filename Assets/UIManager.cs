@@ -29,6 +29,16 @@ public class UIManager : MonoBehaviour
 
     private void OnGUI()
     {
-        _message = GUI.TextArea(new Rect(10, 10, 200, 50), _message, 200);
+        _message = GUI.TextArea(new Rect(10, 10, 400, 100), _message, 500);
+
+        if (GUI.Button(new Rect(10, 120, 50, 30), "Start client"))
+        {
+            CrossZeroRelay.StartClient();
+        }
+
+        if (GUI.Button(new Rect(70, 120, 50, 30), "Start host"))
+        {
+            CrossZeroRelay.StartClient();
+        }
     }
 }
