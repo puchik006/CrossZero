@@ -8,13 +8,14 @@ public class FieldModel
     private bool _isLastFieldCross = false;
 
     public FieldValue[] Data { get => _data; }
+    
     public event Action<int, FieldValue> OnFieldValueChanged;
 
     public void ChangeMatrix(int number)
     {
         if (Data[number] != FieldValue.Empty) return;
 
-        Data[number] = _isLastFieldCross? FieldValue.Zero: FieldValue.Cross;
+        Data[number] = _isLastFieldCross ? FieldValue.Zero : FieldValue.Cross;
         _isLastFieldCross = !_isLastFieldCross;
         OnFieldValueChanged?.Invoke(number, Data[number]);
     }

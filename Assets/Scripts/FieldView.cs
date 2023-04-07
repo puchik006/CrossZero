@@ -16,6 +16,7 @@ public class FieldView : MonoBehaviour
     };
     public event Action<int> OnFieldTouched;
     public static event Action<int> OnButtonClick;
+    public static event Action OnApproveChanging;
 
     private void Start()
     {
@@ -23,10 +24,10 @@ public class FieldView : MonoBehaviour
         gameObject.GetComponent<Button>().onClick.AddListener(ButtonClick);
     }
 
-    private void ButtonClick()
+    private void ButtonClick() // rename Actions - one of them is for NetPlayer feedback
     {
-        OnFieldTouched?.Invoke(_fieldNumber);
-        OnButtonClick?.Invoke(_fieldNumber);
+        OnFieldTouched?.Invoke(_fieldNumber); // change field on yourself
+        OnButtonClick?.Invoke(_fieldNumber); // feedback for second player
     }
     
     public void ChangeFieldColor(FieldValue fieldValue)

@@ -18,8 +18,8 @@ public class FieldController
     private void Enable()
     {
         _fieldsModel.OnFieldValueChanged += ChangeView;
-        _fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSign);
 
+        _fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSign);
         PlayerNetwork.OnGetClientFieldInfo += ChangeFieldSign;
 
        RoundModel.OnRoundEnd += ClearFields;

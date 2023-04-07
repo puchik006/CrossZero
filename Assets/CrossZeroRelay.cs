@@ -36,8 +36,6 @@ public class CrossZeroRelay : MonoBehaviour
 
             RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
 
-            _serverData = relayServerData;
-
             UIManager.GUIMessage("Start relay with code: " + joinCode);
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
@@ -61,20 +59,22 @@ public class CrossZeroRelay : MonoBehaviour
 
             RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
 
-            //NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+            _serverData = relayServerData;
 
-            //NetworkManager.Singleton.StartClient();
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
+            NetworkManager.Singleton.StartClient();
         }
         catch (RelayServiceException e)
         {
             UIManager.GUIMessage(e.ToString());
         }
 
-        if (JoinRelay(relayCode).IsCompleted)
-        {
-            OnRelayConnected?.Invoke();
-            UIManager.GUIMessage("SSSSSS");
-        }
+        //if (JoinRelay(relayCode).IsCompleted)
+        //{
+        //    OnRelayConnected?.Invoke();
+        //    UIManager.GUIMessage("SSSSSS");
+        //}
     }
 
     public static void StartClient()
