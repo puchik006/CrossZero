@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     private RoundModel _roundModel;
 
+    private TurnModel _turnModel;
+
     private IScoreModel _scoreModel;
     [SerializeField] private ScoreView _scoreView;
     private ScoreController _scoreController;
@@ -22,7 +24,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _fieldsModel = new FieldModel();
-        _fieldController = new FieldController(_fieldsView, _fieldsModel);
+        _turnModel = new TurnModel();
+        _fieldController = new FieldController(_fieldsView, _fieldsModel,_turnModel);
 
         _roundModel = new RoundModel(_fieldsModel);
 

@@ -8,17 +8,12 @@ using UnityEngine;
 public class PlayerNetwork : NetworkBehaviour
 {
     public static event Action<int> OnGetClientFieldInfo;
-
-    private bool _isYourTurn = true;
-
-    private void Start()
-    {
-        WhoIsFirstMoving();
-    }
+    public static event Action<bool> IsYourTurnFirst;
 
     public override void OnNetworkSpawn()
     {
         FieldView.OnButtonClick += IsServer? TestClientRPC : TestServerRPC;
+        IsYourTurnFirst?.Invoke(IsServer ? true : false);
     }
 
     [ServerRpc(RequireOwnership = false)] // This code is runnig on server when client is acting
@@ -34,11 +29,5 @@ public class PlayerNetwork : NetworkBehaviour
         if (IsOwner) return;
         if (IsHost) return;
         OnGetClientFieldInfo?.Invoke(fieldNumber);
-    }
-
-
-    private void WhoIsFirstMoving()
-    {
-        _isYourTurn =  IsServer ? true : false;
     }
 }

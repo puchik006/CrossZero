@@ -16,7 +16,6 @@ public class FieldView : MonoBehaviour
     };
     public event Action<int> OnFieldTouched;
     public static event Action<int> OnButtonClick;
-    public static event Action OnApproveChanging;
 
     private void Start()
     {

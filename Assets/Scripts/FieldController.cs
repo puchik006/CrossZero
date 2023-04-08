@@ -6,11 +6,13 @@ public class FieldController
 {
     private List<FieldView> _fieldsView;
     private FieldModel _fieldsModel;
+    private TurnModel _turnModel;
 
-    public FieldController(List<FieldView> fieldsView, FieldModel fieldsModel)
+    public FieldController(List<FieldView> fieldsView, FieldModel fieldsModel, TurnModel turnModel)
     {
         _fieldsView = fieldsView;
         _fieldsModel = fieldsModel;
+        _turnModel = turnModel;
 
         Enable();
     }
@@ -19,15 +21,29 @@ public class FieldController
     {
         _fieldsModel.OnFieldValueChanged += ChangeView;
 
-        _fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSign);
-        PlayerNetwork.OnGetClientFieldInfo += ChangeFieldSign;
+        _fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSignIN);
 
-       RoundModel.OnRoundEnd += ClearFields;
+        PlayerNetwork.OnGetClientFieldInfo += ChangeFieldSignOUT;
+
+        RoundModel.OnRoundEnd += ClearFields;
     }
 
-    private void ChangeFieldSign(int fieldNumber)
+    private void ChangeFieldSignIN(int fieldNumber)
     {
-        _fieldsModel.ChangeMatrix(fieldNumber);
+        if (_turnModel.GetYourTurn()) // move it somehow from controller
+        {
+            _fieldsModel.ChangeMatrix(fieldNumber);
+            _turnModel.SetTurn(false);
+        }
+    }
+
+    private void ChangeFieldSignOUT(int fieldNumber)
+    {
+        if (_turnModel.GetSecondPlayerTurn()) // move it somehow from controller
+        {
+            _fieldsModel.ChangeMatrix(fieldNumber);
+            _turnModel.SetTurn(true);
+        }
     }
 
     private void ChangeView(int fieldNumber,FieldValue fieldValue)
