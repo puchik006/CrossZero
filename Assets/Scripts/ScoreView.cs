@@ -8,6 +8,8 @@ public class ScoreView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _playerOneScore;
     [SerializeField] private TMP_Text _playerTwoScore;
+    [SerializeField] private TMP_Text _playerOneName;
+    [SerializeField] private TMP_Text _playerTwoName;
 
     public void ChangePlayerScore(string playerOneScore, string playerTwoScore)
     {

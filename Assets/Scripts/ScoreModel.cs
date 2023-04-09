@@ -53,6 +53,7 @@ public class ScoreModel : IScoreModel
 
     public void ClearPlayersScore()
     {
-        throw new NotImplementedException();
+        _playerOneScore = 0;
+        _playerTwoScore = 0;
     }
 }

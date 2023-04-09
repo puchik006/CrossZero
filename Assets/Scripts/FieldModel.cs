@@ -14,8 +14,6 @@ public class FieldModel
 
     public void ChangeMatrix(int number)
     {
-        if (Data[number] != FieldValue.Empty) return;
-
         Data[number] = _isLastFieldCross ? FieldValue.Zero : FieldValue.Cross;
         _isLastFieldCross = !_isLastFieldCross;
         OnFieldValueChanged?.Invoke(number, Data[number]);

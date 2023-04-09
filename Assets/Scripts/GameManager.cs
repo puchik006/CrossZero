@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _fieldsModel = new FieldModel();
-        _turnModel = new TurnModel();
-        _fieldController = new FieldController(_fieldsView, _fieldsModel,_turnModel);
+        _turnModel = new TurnModel(_fieldsView, _fieldsModel);
+        _fieldController = new FieldController(_fieldsView, _fieldsModel);
 
         _roundModel = new RoundModel(_fieldsModel);
 
