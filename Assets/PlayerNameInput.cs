@@ -8,8 +8,6 @@ public class PlayerNameInput : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _playerNameInput;
 
-    public static event Action<string> OnPlayerNameChanged;
-
     private void Start()
     {
         _playerNameInput.onValueChanged.AddListener(ChangeFieldValue);
@@ -18,15 +16,14 @@ public class PlayerNameInput : MonoBehaviour
 
     private void ChangeFieldValue(string playerName)
     {
-        OnPlayerNameChanged?.Invoke(playerName);
-        PlayerPrefs.SetString("myName",playerName); // replace myName with Enum or simething else
+        PlayerPrefs.SetString(PlayerKeys.Name,playerName);
     }
 
     private void CheckSavedPlayerName()
     {
-        if (PlayerPrefs.HasKey("myName"))
+        if (PlayerPrefs.HasKey(PlayerKeys.Name))
         {
-            _playerNameInput.text = PlayerPrefs.GetString("myName");
+            _playerNameInput.text = PlayerPrefs.GetString(PlayerKeys.Name);
         }
     }
 }
