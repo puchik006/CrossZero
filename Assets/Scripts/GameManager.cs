@@ -14,7 +14,11 @@ public class GameManager : MonoBehaviour
 
     private IScoreModel _scoreModel;
     [SerializeField] private ScoreView _scoreView;
-    private ScoreController _scoreController;
+    private ScoreController _scoreController;   
+
+    private PlayerNameModel _playerNameModel;
+    private PlayerNameController _playerNameController;
+    [SerializeField] private PlayerNameView _playerNameView;
 
     private TextMessageModel _textMessageModel;
     [SerializeField] private TextMessageView _textMessageView;
@@ -28,6 +32,9 @@ public class GameManager : MonoBehaviour
         _fieldController = new FieldController(_fieldsView, _fieldsModel);
 
         _roundModel = new RoundModel(_fieldsModel);
+
+        _playerNameModel = new PlayerNameModel();
+        _playerNameController = new PlayerNameController(_playerNameModel, _playerNameView);
 
         _scoreModel = new ScoreModel();
         _scoreController = new ScoreController(_scoreView,_scoreModel);

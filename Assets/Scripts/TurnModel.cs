@@ -10,6 +10,7 @@ public class TurnModel
     private FieldModel _fieldsModel;
 
     public static event Action<int> OnApproveToChangeFieldNumer;
+    public static event Action<bool> OnTurn;
 
     public TurnModel(List<FieldView> fieldsView, FieldModel fieldsModel)
     {
@@ -18,7 +19,7 @@ public class TurnModel
 
         _fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSignIN);
 
-        PlayerNetwork.IsYourTurnFirst += SetTurn;
+        PlayerNetwork.IsPlayerHost += SetTurn;
         PlayerNetwork.OnGetClientFieldInfo += ChangeFieldSignOUT;
     }
 
@@ -48,5 +49,7 @@ public class TurnModel
     {
         _isYourTurn = isYourTurn;
         _isAnotherPlayerTurn = !isYourTurn;
+
+        OnTurn?.Invoke(_isYourTurn);
     }
 }
