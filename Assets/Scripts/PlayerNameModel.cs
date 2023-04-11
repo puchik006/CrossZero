@@ -26,18 +26,30 @@ public class PlayerNameModel
         }
     }
 
-    public void SetSecondPlayerName(string secondPlayerName)
+    public void SetSecondPlayerName(string firstPlayerName, string secondPlayerName)
     {
-        if (_playerOneName == null)
-        {
-            _playerOneName = secondPlayerName;
-            PlayerOneNameChanged?.Invoke(PlayerOneName);
-        }
-
-        if (_playerTwoName == null)
+        if (_playerOneName != null)
         {
             _playerTwoName = secondPlayerName;
             PlayerTwoNameChanged?.Invoke(PlayerTwoName);
         }
+
+        if (_playerTwoName != null)
+        {
+            _playerOneName = firstPlayerName;
+            PlayerOneNameChanged?.Invoke(PlayerOneName);
+        }
+
+        //if (_playerOneName == null)
+        //{
+        //    _playerOneName = secondPlayerName;
+        //    PlayerOneNameChanged?.Invoke(PlayerOneName);
+        //}
+
+        //if (_playerTwoName == null)
+        //{
+        //    _playerTwoName = secondPlayerName;
+        //    PlayerTwoNameChanged?.Invoke(PlayerTwoName);
+        //}
     }
 }

@@ -14,7 +14,7 @@
     private void Enable()
     {
         PlayerNetwork.IsPlayerHost += _playerNameModel.SetPlayerName;
-        PlayerNetwork.OnIntroduceYourself += _playerNameModel.SetSecondPlayerName;
+        PlayerNetwork.OnPlayerConnected += _playerNameModel.SetSecondPlayerName;
 
         _playerNameModel.PlayerOneNameChanged += _playerNameView.SetPlayerOneName;
         _playerNameModel.PlayerTwoNameChanged += _playerNameView.SetPlayerTwoName;
