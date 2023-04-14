@@ -1,4 +1,6 @@
-﻿public class PlayerNameController
+﻿using Unity.Netcode;
+
+public class PlayerNameController
 {
     private PlayerNameModel _playerNameModel;
     private PlayerNameView _playerNameView;
@@ -14,7 +16,8 @@
     private void Enable()
     {
         PlayerNetwork.IsPlayerHost += _playerNameModel.SetPlayerName;
-        PlayerNetwork.OnPlayerConnected += _playerNameModel.SetSecondPlayerName;
+        NetworkStorage.OnShowMyName += _playerNameModel.SetSecondPlayerName;
+        NetworkManager.Singleton.OnClientConnectedCallback += _playerNameModel.SendNameToAnotherPlayer;
 
         _playerNameModel.PlayerOneNameChanged += _playerNameView.SetPlayerOneName;
         _playerNameModel.PlayerTwoNameChanged += _playerNameView.SetPlayerTwoName;

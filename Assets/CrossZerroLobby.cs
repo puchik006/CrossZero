@@ -205,7 +205,7 @@ public class CrossZerroLobby : MonoBehaviour
                 {
                     if (!IsLobbyHost())
                     {
-                        _relay.JoinRelay(_joinedLobby.Data[KEY_START_GAME].Value);
+                        await _relay.JoinRelay(_joinedLobby.Data[KEY_START_GAME].Value);
                         UIManager.GUIMessage("Client connecting to relay: " + _joinedLobby.Data[KEY_START_GAME].Value.ToString());
                         _isSecondPlayerConneted = true;
                     }

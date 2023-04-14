@@ -1,55 +1,56 @@
 ﻿using System;
+using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerNameModel
 {
+    private string _myName;
     private string _playerOneName;
     private string _playerTwoName;
 
     public event Action<string> PlayerOneNameChanged;
     public event Action<string> PlayerTwoNameChanged;
+    public static event Action<string> SayMyName;
 
     public string PlayerOneName { get => _playerOneName;}
     public string PlayerTwoName { get => _playerTwoName;}
+
+    public PlayerNameModel()
+    {
+        _myName = PlayerPrefs.HasKey(PlayerKeys.Name) ? PlayerPrefs.GetString(PlayerKeys.Name) : "";
+    }
 
     public void SetPlayerName(bool isPlayerHost)
     {
         if (isPlayerHost)
         {
-            _playerOneName = PlayerPrefs.HasKey(PlayerKeys.Name) ? PlayerPrefs.GetString(PlayerKeys.Name) : "Player 1";
+            _playerOneName = _myName == "" ? "Player 1" : _myName;
             PlayerOneNameChanged?.Invoke(PlayerOneName);
         }
         else
         {
-            _playerTwoName = PlayerPrefs.HasKey(PlayerKeys.Name) ? PlayerPrefs.GetString(PlayerKeys.Name) : "Player 2";
+            _playerTwoName = _myName == "" ? "Player 2" : _myName;
             PlayerTwoNameChanged?.Invoke(PlayerTwoName);
         }
     }
 
-    public void SetSecondPlayerName(string firstPlayerName, string secondPlayerName)
+    public void SetSecondPlayerName(string secondPlayerName)
     {
-        if (_playerOneName != null)
+        if (_playerOneName == _myName)
         {
             _playerTwoName = secondPlayerName;
             PlayerTwoNameChanged?.Invoke(PlayerTwoName);
         }
 
-        if (_playerTwoName != null)
+        if (_playerTwoName == _myName)
         {
-            _playerOneName = firstPlayerName;
+            _playerOneName = secondPlayerName;
             PlayerOneNameChanged?.Invoke(PlayerOneName);
         }
+    }
 
-        //if (_playerOneName == null)
-        //{
-        //    _playerOneName = secondPlayerName;
-        //    PlayerOneNameChanged?.Invoke(PlayerOneName);
-        //}
-
-        //if (_playerTwoName == null)
-        //{
-        //    _playerTwoName = secondPlayerName;
-        //    PlayerTwoNameChanged?.Invoke(PlayerTwoName);
-        //}
+    public void SendNameToAnotherPlayer(ulong id)
+    {
+        SayMyName?.Invoke(_myName);
     }
 }

@@ -19,11 +19,11 @@ public class CrossZeroRelay : MonoBehaviour
 
     private static RelayServerData _serverData;
 
-    private static event Action OnRelayConnected;
+    //private static event Action OnRelayConnected;
 
     private void Start()
     {
-        OnRelayConnected += StartClient;
+        //OnRelayConnected += StartClient;
     }
 
     public async Task<string> CreateRelay()
