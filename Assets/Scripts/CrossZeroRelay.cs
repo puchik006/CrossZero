@@ -8,23 +8,14 @@ using Unity.Services.Relay.Models;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
-using TMPro;
 using System.Threading.Tasks;
-using UnityEngine.Assertions.Must;
-using System;
 
 public class CrossZeroRelay : MonoBehaviour
 {
     private const int MAX_PLAYERS = 2;
+    private const string CONNECTION_TYPE = "dtls";
 
     private static RelayServerData _serverData;
-
-    //private static event Action OnRelayConnected;
-
-    private void Start()
-    {
-        //OnRelayConnected += StartClient;
-    }
 
     public async Task<string> CreateRelay()
     {
@@ -34,7 +25,7 @@ public class CrossZeroRelay : MonoBehaviour
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
-            RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
+            RelayServerData relayServerData = new RelayServerData(allocation, CONNECTION_TYPE);
 
             UIManager.GUIMessage("Start relay with code: " + joinCode);
 
@@ -57,7 +48,7 @@ public class CrossZeroRelay : MonoBehaviour
         {
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(relayCode);
 
-            RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
+            RelayServerData relayServerData = new RelayServerData(joinAllocation, CONNECTION_TYPE);
 
             _serverData = relayServerData;
 
@@ -70,11 +61,6 @@ public class CrossZeroRelay : MonoBehaviour
             UIManager.GUIMessage(e.ToString());
         }
 
-        //if (JoinRelay(relayCode).IsCompleted)
-        //{
-        //    OnRelayConnected?.Invoke();
-        //    UIManager.GUIMessage("SSSSSS");
-        //}
     }
 
     public static void StartClient()

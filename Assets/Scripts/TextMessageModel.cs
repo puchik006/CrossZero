@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public interface IMessageModel
 {
@@ -10,6 +8,7 @@ public interface IMessageModel
 public class TextMessageModel: IMessageModel
 {
     private string _gameMessage;
+    public string GameMessage { get => _gameMessage; }
 
     private Dictionary<GameStatus,string> _gameStatusToString = new Dictionary<GameStatus, string>()
     {
@@ -17,8 +16,6 @@ public class TextMessageModel: IMessageModel
         {GameStatus.CrossWin,"Cross win!"},
         {GameStatus.ZeroWin,"Zero win!"}
     };
-
-    public string GameMessage { get => _gameMessage;}
 
     public void CreateMessage(GameStatus gameStatus)
     {
