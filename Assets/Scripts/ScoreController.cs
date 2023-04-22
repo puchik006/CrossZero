@@ -13,7 +13,7 @@ public class ScoreController
 
     private void Enable()
     {
-        RoundModel.OnRoundEnd += _scoreModel.ChangePlayerScore; //a bit mess responsibilities
+        RoundModel.OnRoundEnd += _scoreModel.ChangePlayerScore;
         _scoreModel.OnScoreChanged += _scoreView.ChangePlayerScore;
     }
 }

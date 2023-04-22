@@ -1,18 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 public class FieldModel 
 {
     private FieldValue[] _data = new FieldValue[9] {0,0,0,0,0,0,0,0,0};
-    private bool _isLastFieldCross = false;
-
     public FieldValue[] Data { get => _data; }
-    
+    private bool _isLastFieldCross = false;
     public event Action<int, FieldValue> OnFieldValueChanged;
 
-    public void ChangeMatrix(int number)
+    public void ChangeMatrix(int number) //prorbably it is better to take field sign from somewhere else
     {
         Data[number] = _isLastFieldCross ? FieldValue.Zero : FieldValue.Cross;
         _isLastFieldCross = !_isLastFieldCross;
@@ -28,4 +23,9 @@ public class FieldModel
     {
         _isLastFieldCross = false;
     }
+}
+
+public class PlayersSign
+{
+
 }

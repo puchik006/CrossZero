@@ -101,7 +101,6 @@ public class CrossZerroLobby : MonoBehaviour
         try
         {
             string lobbyName = "BuLobby";
-            int maxPlayers = 2;
             CreateLobbyOptions lobbyOptions = new CreateLobbyOptions()
             {
                 IsPrivate = false,
@@ -112,7 +111,7 @@ public class CrossZerroLobby : MonoBehaviour
                 }
             };
 
-            var lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, lobbyOptions);
+            var lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, MAX_PLAYERS, lobbyOptions);
 
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;

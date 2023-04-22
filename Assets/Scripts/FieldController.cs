@@ -17,10 +17,8 @@ public class FieldController
 
     private void Enable()
     {
+        _fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSign);
         _fieldsModel.OnFieldValueChanged += ChangeView;
-
-        TurnModel.OnApproveToChangeFieldNumer += ChangeFieldSign;
-
         RoundModel.OnRoundEnd += ClearFields;
     }
 
