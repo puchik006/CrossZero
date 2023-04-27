@@ -24,7 +24,7 @@ public class FieldController
 
     private void ChangeFieldSign(int fieldNumber)
     {
-        _fieldsModel.ChangeMatrix(fieldNumber);
+        //_fieldsModel.ChangeMatrix(fieldNumber);
     }
 
     private void ChangeView(int fieldNumber,FieldValue fieldValue)
@@ -35,7 +35,6 @@ public class FieldController
     private void ClearFields(GameStatus gameStatus)
     {
         _fieldsModel.ClearMatrix();
-        _fieldsModel.ChangeSignOnNewRound();
         _fieldsView.ForEach(e => e.ClearField());
     }
 }

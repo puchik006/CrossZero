@@ -4,13 +4,14 @@ public class FieldModel
 {
     private FieldValue[] _data = new FieldValue[9] {0,0,0,0,0,0,0,0,0};
     public FieldValue[] Data { get => _data; }
-    private bool _isLastFieldCross = false;
+
     public event Action<int, FieldValue> OnFieldValueChanged;
 
-    public void ChangeMatrix(int number) //prorbably it is better to take field sign from somewhere else
+    public void ChangeMatrix(int number, FieldValue fieldValue)
     {
-        Data[number] = _isLastFieldCross ? FieldValue.Zero : FieldValue.Cross;
-        _isLastFieldCross = !_isLastFieldCross;
+        if (_data[number] != FieldValue.Empty) return;
+
+        _data[number] = fieldValue;
         OnFieldValueChanged?.Invoke(number, Data[number]);
     }
 
@@ -18,14 +19,4 @@ public class FieldModel
     {
         Array.Clear(_data, 0, _data.Length);
     }
-
-    public void ChangeSignOnNewRound()
-    {
-        _isLastFieldCross = false;
-    }
-}
-
-public class PlayersSign
-{
-
 }

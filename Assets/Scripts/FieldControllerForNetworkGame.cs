@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class FieldControllerForNetworkGame //it is actually Field Controller with turns mechanic for network game
+public class FieldControllerForNetworkGame // TODO Inheritance from FieldController
 {
     private List<FieldView> _fieldsView;
     private FieldModel _fieldsModel;
@@ -9,10 +9,14 @@ public class FieldControllerForNetworkGame //it is actually Field Controller wit
     private bool _isYourTurn = true;
     private bool _isAnotherPlayerTurn = false;
 
+    private PlayersSign _playerSign;
+
     public FieldControllerForNetworkGame(List<FieldView> fieldsView, FieldModel fieldsModel)
     {
         _fieldsModel = fieldsModel;
         _fieldsView = fieldsView;
+
+        _playerSign = new PlayersSign();
 
         Enable();
     }
@@ -30,22 +34,18 @@ public class FieldControllerForNetworkGame //it is actually Field Controller wit
 
     private void ChangeFieldSignIN(int fieldNumber)
     {
-        if (_fieldsModel.Data[fieldNumber] != FieldValue.Empty) return; //??
-
-        if (_isYourTurn)
+        if (_isYourTurn) // can change turn when click on the same field
         {
-            ChangeFieldSign(fieldNumber);
+            ChangeFieldSign(fieldNumber,_playerSign.MySign);
             SetTurn(false);
         }
     }
 
     private void ChangeFieldSignOUT(int fieldNumber)
     {
-        if (_fieldsModel.Data[fieldNumber] != FieldValue.Empty) return; //??
-
         if (_isAnotherPlayerTurn) 
         {
-            ChangeFieldSign(fieldNumber);
+            ChangeFieldSign(fieldNumber, _playerSign.AnotherPlayerSign);
             SetTurn(true);
         }
     }
@@ -56,9 +56,9 @@ public class FieldControllerForNetworkGame //it is actually Field Controller wit
         _isAnotherPlayerTurn = !isYourTurn;
     }
 
-    private void ChangeFieldSign(int fieldNumber)
+    private void ChangeFieldSign(int fieldNumber, FieldValue fieldValue)
     {
-        _fieldsModel.ChangeMatrix(fieldNumber);
+        _fieldsModel.ChangeMatrix(fieldNumber,fieldValue);
     }
 
     private void ChangeView(int fieldNumber, FieldValue fieldValue)
@@ -69,7 +69,6 @@ public class FieldControllerForNetworkGame //it is actually Field Controller wit
     private void ClearFields(GameStatus gameStatus)
     {
         _fieldsModel.ClearMatrix();
-        _fieldsModel.ChangeSignOnNewRound();
         _fieldsView.ForEach(e => e.ClearField());
     }
 }
