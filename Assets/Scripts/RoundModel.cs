@@ -5,7 +5,7 @@ public class RoundModel
     private FieldModel _fieldModel;
     public static event Action<GameStatus> OnRoundEnd;
 
-    public RoundModel(FieldModel fieldModel) // should create Round controller
+    public RoundModel(FieldModel fieldModel)
     {
         _fieldModel = fieldModel;
         _fieldModel.OnFieldValueChanged += OnFieldsChange;

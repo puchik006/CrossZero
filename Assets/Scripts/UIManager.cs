@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -13,6 +9,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         CrossZerroLobby.OnGameStart += SetActiveGameScreen;
+        GameModeView.OnLocalGameStart += SetActiveGameScreen;
     }
 
     private void SetActiveGameScreen()

@@ -23,15 +23,21 @@ public class GameManager : MonoBehaviour
     private TextMessageModel _textMessageModel;
     [SerializeField] private TextMessageView _textMessageView;
     private TextMessageController _textMessageController;
-    
-    
-    void Start()
+
+    //private Dictionary<GameMode, FieldController> _GameModeSwithcer = new Dictionary<GameMode, FieldController>()
+    //{
+    //    {GameMode.TwoPlayersGame,new FieldController(_fieldsView,new FieldModel())},
+    //    {GameMode.GameWithInternet, },
+    //};
+
+
+    private void Start()
     {
         _fieldsModel = new FieldModel();
 
-        _fieldControllerForNetwork = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
+        //_fieldControllerForNetwork = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
 
-        //_fieldController = new FieldController(_fieldsView, _fieldsModel);
+        _fieldController = new FieldController(_fieldsView, _fieldsModel);
 
         _roundModel = new RoundModel(_fieldsModel);
 
@@ -44,4 +50,15 @@ public class GameManager : MonoBehaviour
         _textMessageModel = new TextMessageModel();
         _textMessageController = new TextMessageController(_textMessageView, _textMessageModel);
     }
+
+    private void TurnOnNetworkGame()
+    {
+
+    }
+
+    private void TurnOnTwoPlayersGame()
+    {
+
+    }
+
 }

@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class FieldController
 {
-    private List<FieldView> _fieldsView;
-    private FieldModel _fieldsModel;
+    private protected List<FieldView> _fieldsView;
+    private protected FieldModel _fieldsModel;
 
     public FieldController(List<FieldView> fieldsView, FieldModel fieldsModel)
     {
@@ -24,17 +22,18 @@ public class FieldController
 
     private void ChangeFieldSign(int fieldNumber)
     {
-        //_fieldsModel.ChangeMatrix(fieldNumber);
+        _fieldsModel.ChangeMatrix(fieldNumber);
     }
 
-    private void ChangeView(int fieldNumber,FieldValue fieldValue)
+    private protected void ChangeView(int fieldNumber,FieldValue fieldValue)
     {
         _fieldsView[fieldNumber].ChangeFieldColor(fieldValue);
     }
 
-    private void ClearFields(GameStatus gameStatus)
+    private protected void ClearFields(GameStatus gameStatus)
     {
         _fieldsModel.ClearMatrix();
+        _fieldsModel.ChangeSignOnNewRound();
         _fieldsView.ForEach(e => e.ClearField());
     }
 }
