@@ -21,7 +21,7 @@ public class CrossZeroRelay : MonoBehaviour
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             RelayServerData relayServerData = new RelayServerData(allocation, CONNECTION_TYPE);
 
-            UIManager.GUIMessage("Start relay with code: " + joinCode);
+            ScreensHandler.GUIMessage("Start relay with code: " + joinCode);
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartHost();
@@ -30,7 +30,7 @@ public class CrossZeroRelay : MonoBehaviour
         }
         catch (RelayServiceException e)
         {
-            UIManager.GUIMessage(e.ToString());
+            ScreensHandler.GUIMessage(e.ToString());
             return null;
         }
     }
@@ -49,7 +49,7 @@ public class CrossZeroRelay : MonoBehaviour
         }
         catch (RelayServiceException e)
         {
-            UIManager.GUIMessage(e.ToString());
+            ScreensHandler.GUIMessage(e.ToString());
         }
 
     }
@@ -59,6 +59,6 @@ public class CrossZeroRelay : MonoBehaviour
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(_serverData);
         NetworkManager.Singleton.StartClient();
 
-        UIManager.GUIMessage("CLient start");
+        ScreensHandler.GUIMessage("CLient start");
     }
 }

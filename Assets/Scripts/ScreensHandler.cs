@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class ScreensHandler : MonoBehaviour //rename
 {
     [SerializeField] private GameObject _gameScreen;
     [SerializeField] private GameObject _mainMenuScreen;
@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         CrossZerroLobby.OnGameStart += SetActiveGameScreen;
-        GameModeView.OnLocalGameStart += SetActiveGameScreen;
+        ButtonsHandler.OnLocalGameStart += SetActiveGameScreen;
     }
 
     private void SetActiveGameScreen()

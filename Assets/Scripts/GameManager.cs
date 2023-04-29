@@ -30,9 +30,11 @@ public class GameManager : MonoBehaviour
     //    {GameMode.GameWithInternet, },
     //};
 
-
+    
     private void Start()
     {
+        
+
         _fieldsModel = new FieldModel();
 
         //_fieldControllerForNetwork = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
@@ -49,6 +51,14 @@ public class GameManager : MonoBehaviour
 
         _textMessageModel = new TextMessageModel();
         _textMessageController = new TextMessageController(_textMessageView, _textMessageModel);
+
+        EventsHandler();
+    }
+
+
+    private void EventsHandler()
+    {
+
     }
 
     private void TurnOnNetworkGame()

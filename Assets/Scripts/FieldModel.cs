@@ -20,7 +20,7 @@ public class FieldModel
     }
 
 
-    public void ChangeMatrix(int number, FieldValue fieldValue)
+    public void ChangeMatrix(int number, FieldValue fieldValue) 
     {
         if (_data[number] != FieldValue.Empty) return;
 

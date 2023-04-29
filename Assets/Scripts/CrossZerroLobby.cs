@@ -56,7 +56,7 @@ public class CrossZerroLobby : MonoBehaviour
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-            UIManager.GUIMessage(e.ToString());
+            ScreensHandler.GUIMessage(e.ToString());
         }
     }
 
@@ -121,7 +121,7 @@ public class CrossZerroLobby : MonoBehaviour
             Debug.Log(e);
         }
 
-        UIManager.GUIMessage("Create lobby " + _joinedLobby.Name + " player name " + _playerName);
+        ScreensHandler.GUIMessage("Create lobby " + _joinedLobby.Name + " player name " + _playerName);
     }
 
     private async void QuickJoinLobby()
@@ -142,15 +142,15 @@ public class CrossZerroLobby : MonoBehaviour
             Debug.Log(e);
         }
 
-        UIManager.GUIMessage("Join lobby" + _joinedLobby.Name + " player name " + _playerName);
+        ScreensHandler.GUIMessage("Join lobby" + _joinedLobby.Name + " player name " + _playerName);
     }
 
     private void PrintPlayers(Lobby lobby)
     {
-        UIManager.GUIMessage("Players in looby: " + lobby.Name + " is " + lobby.Players.Count);
+        ScreensHandler.GUIMessage("Players in looby: " + lobby.Name + " is " + lobby.Players.Count);
         foreach (Player player in lobby.Players)
         {
-            UIManager.GUIMessage("Player: " + player.Id + " player name: " + player.Data["PlayerName"].Value + " relay code "
+            ScreensHandler.GUIMessage("Player: " + player.Id + " player name: " + player.Data["PlayerName"].Value + " relay code "
                 + lobby.Data[KEY_START_GAME].Value);
         }
     }
@@ -205,7 +205,7 @@ public class CrossZerroLobby : MonoBehaviour
                     if (!IsLobbyHost())
                     {
                         await _relay.JoinRelay(_joinedLobby.Data[KEY_START_GAME].Value);
-                        UIManager.GUIMessage("Client connecting to relay: " + _joinedLobby.Data[KEY_START_GAME].Value.ToString());
+                        ScreensHandler.GUIMessage("Client connecting to relay: " + _joinedLobby.Data[KEY_START_GAME].Value.ToString());
                         _isSecondPlayerConneted = true;
                     }
 
@@ -219,7 +219,7 @@ public class CrossZerroLobby : MonoBehaviour
                     if (_joinedLobby.Players.Count == 2 && !_isRelayExist)
                     {
                         _isRelayExist = true;
-                        UIManager.GUIMessage($"Second player {_joinedLobby.Players[1].Data["PlayerName"].Value} connected to lobby: " + _joinedLobby.Name);
+                        ScreensHandler.GUIMessage($"Second player {_joinedLobby.Players[1].Data["PlayerName"].Value} connected to lobby: " + _joinedLobby.Name);
                         StartRelay();
                     }
                 }
@@ -248,7 +248,7 @@ public class CrossZerroLobby : MonoBehaviour
             }
             catch (LobbyServiceException e)
             {
-                UIManager.GUIMessage(e.ToString());
+                ScreensHandler.GUIMessage(e.ToString());
             }
         }
     }
