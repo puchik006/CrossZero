@@ -22,12 +22,20 @@ public class ButtonsHandler: MonoBehaviour
 
     private void Start()
     {
+        Enable();
+
         _localGame.onClick.AddListener(() => OnLocalGameStart?.Invoke());
         _internetGame.onClick.AddListener(() => OnInternetGameStart?.Invoke());
         _aiGame.onClick.AddListener(() => OnAIGameStart?.Invoke());
         _twoPlayersGame.onClick.AddListener(() => OnTwoPlayersGameStart?.Invoke());
 
         _exitButton.onClick.AddListener(() => OnExitButtonClick?.Invoke());
+    }
+
+    private void Enable()
+    {
+        OnLocalGameStart += () => _exitButton.gameObject.SetActive(true);
+        OnTwoPlayersGameStart += () => _exitButton.gameObject.SetActive(true);
     }
 
 

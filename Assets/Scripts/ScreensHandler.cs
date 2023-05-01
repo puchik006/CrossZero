@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class ScreensHandler : MonoBehaviour //rename
@@ -9,7 +10,12 @@ public class ScreensHandler : MonoBehaviour //rename
     private void Start()
     {
         CrossZerroLobby.OnGameStart += SetActiveGameScreen;
-        ButtonsHandler.OnLocalGameStart += SetActiveGameScreen;
+        ButtonsHandler.OnLocalGameStart += SetActiveHostClientScreen;
+        ButtonsHandler.OnTwoPlayersGameStart += SetActiveGameScreen;
+        ButtonsHandler.OnExitButtonClick += SetMainScreenActive;
+
+        NetworkManager.Singleton.OnServerStarted += SetActiveGameScreen;
+        NetworkManager.Singleton.OnClientConnectedCallback += SetActiveGameScreen;
     }
 
     private void SetActiveGameScreen()
@@ -19,6 +25,24 @@ public class ScreensHandler : MonoBehaviour //rename
         _multiplayerScreen.SetActive(false);
     }
 
+    private void SetActiveGameScreen(ulong aaa)
+    {
+        _gameScreen.SetActive(true);
+        _mainMenuScreen.SetActive(false);
+        _multiplayerScreen.SetActive(false);
+    }
+
+    private void SetActiveHostClientScreen()
+    {
+        _multiplayerScreen.SetActive(true);
+        _mainMenuScreen.SetActive(false);
+    }
+
+    private void SetMainScreenActive()
+    {
+        _mainMenuScreen.SetActive(true);
+        _gameScreen.SetActive(false);
+    }
     private static string _message = "LOG: ";
 
     public static void GUIMessage(string message)

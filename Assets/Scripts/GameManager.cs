@@ -30,16 +30,12 @@ public class GameManager : MonoBehaviour
     //    {GameMode.GameWithInternet, },
     //};
 
-    
-    private void Start()
-    {
-        
 
+    private void Start()
+    { 
         _fieldsModel = new FieldModel();
 
         //_fieldControllerForNetwork = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
-
-        _fieldController = new FieldController(_fieldsView, _fieldsModel);
 
         _roundModel = new RoundModel(_fieldsModel);
 
@@ -58,17 +54,20 @@ public class GameManager : MonoBehaviour
 
     private void EventsHandler()
     {
-
+       ButtonsHandler.OnTwoPlayersGameStart += TurnOnTwoPlayersGame;
+       ButtonsHandler.OnLocalGameStart += TurnOnNetworkGame;
     }
 
     private void TurnOnNetworkGame()
     {
-
+        _fieldControllerForNetwork = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
+        ScreensHandler.GUIMessage("net");
     }
 
     private void TurnOnTwoPlayersGame()
     {
-
+        _fieldController = new FieldController(_fieldsView, _fieldsModel);
+        ScreensHandler.GUIMessage("local");
     }
 
 }
