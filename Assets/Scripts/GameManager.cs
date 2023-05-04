@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,18 +23,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMessageView _textMessageView;
     private TextMessageController _textMessageController;
 
-    //private Dictionary<GameMode, FieldController> _GameModeSwithcer = new Dictionary<GameMode, FieldController>()
-    //{
-    //    {GameMode.TwoPlayersGame,new FieldController(_fieldsView,new FieldModel())},
-    //    {GameMode.GameWithInternet, },
-    //};
-
-
     private void Start()
     { 
         _fieldsModel = new FieldModel();
 
-        //_fieldControllerForNetwork = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
+        _fieldControllerForNetwork = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
 
         _roundModel = new RoundModel(_fieldsModel);
 
@@ -60,13 +52,13 @@ public class GameManager : MonoBehaviour
 
     private void TurnOnNetworkGame()
     {
-        _fieldControllerForNetwork = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
+        //_fieldController = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
         ScreensHandler.GUIMessage("net");
     }
 
     private void TurnOnTwoPlayersGame()
     {
-        _fieldController = new FieldController(_fieldsView, _fieldsModel);
+        //_fieldController = new FieldController(_fieldsView, _fieldsModel);
         ScreensHandler.GUIMessage("local");
     }
 

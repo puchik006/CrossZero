@@ -1,5 +1,10 @@
 using System.Collections.Generic;
 
+public interface IFieldContoller
+{
+    void Enable();
+}
+
 public class FieldController
 {
     private protected List<FieldView> _fieldsView;
@@ -15,8 +20,10 @@ public class FieldController
 
     private void Enable()
     {
-        _fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSign);
-        _fieldsModel.OnFieldValueChanged += ChangeView;
+        //_fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSign);
+
+        FieldView.OnButtonClick += ChangeFieldSign;
+        FieldModel.OnFieldValueChanged += ChangeView;
         RoundModel.OnRoundEnd += ClearFields;
     }
 

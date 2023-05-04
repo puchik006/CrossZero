@@ -8,7 +8,7 @@ public class RoundModel
     public RoundModel(FieldModel fieldModel)
     {
         _fieldModel = fieldModel;
-        _fieldModel.OnFieldValueChanged += OnFieldsChange;
+        FieldModel.OnFieldValueChanged += OnFieldsChange;
     }
 
     private void OnFieldsChange(int fieldNumber, FieldValue fieldValue)

@@ -1,17 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using Unity.Collections;
 using Unity.Netcode;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerNetwork : NetworkBehaviour
 {
     public static event Action<int> OnGetClientFieldInfo;
     public static event Action<bool> IsPlayerHost;
-
 
     public override void OnNetworkSpawn()
     {  
@@ -33,6 +26,4 @@ public class PlayerNetwork : NetworkBehaviour
         if (IsHost) return;
         OnGetClientFieldInfo?.Invoke(fieldNumber);
     }
-
-
 }

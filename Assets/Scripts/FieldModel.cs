@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 
 public class FieldModel 
 {
@@ -7,7 +8,7 @@ public class FieldModel
 
     private bool _isLastFieldCross = false;
 
-    public event Action<int, FieldValue> OnFieldValueChanged;
+    public static event Action<int, FieldValue> OnFieldValueChanged;
 
     public void ChangeMatrix(int number)
     {
