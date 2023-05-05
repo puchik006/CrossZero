@@ -9,8 +9,6 @@ public class GameManager : MonoBehaviour
 
     private RoundModel _roundModel;
 
-    private FieldControllerForNetworkGame _fieldControllerForNetwork;
-
     private IScoreModel _scoreModel;
     [SerializeField] private ScoreView _scoreView;
     private ScoreController _scoreController;   
@@ -27,7 +25,7 @@ public class GameManager : MonoBehaviour
     { 
         _fieldsModel = new FieldModel();
 
-        _fieldControllerForNetwork = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
+        _fieldController = new FieldController(_fieldsView, _fieldsModel);
 
         _roundModel = new RoundModel(_fieldsModel);
 
@@ -39,27 +37,5 @@ public class GameManager : MonoBehaviour
 
         _textMessageModel = new TextMessageModel();
         _textMessageController = new TextMessageController(_textMessageView, _textMessageModel);
-
-        EventsHandler();
     }
-
-
-    private void EventsHandler()
-    {
-       ButtonsHandler.OnTwoPlayersGameStart += TurnOnTwoPlayersGame;
-       ButtonsHandler.OnLocalGameStart += TurnOnNetworkGame;
-    }
-
-    private void TurnOnNetworkGame()
-    {
-        //_fieldController = new FieldControllerForNetworkGame(_fieldsView, _fieldsModel);
-        ScreensHandler.GUIMessage("net");
-    }
-
-    private void TurnOnTwoPlayersGame()
-    {
-        //_fieldController = new FieldController(_fieldsView, _fieldsModel);
-        ScreensHandler.GUIMessage("local");
-    }
-
 }

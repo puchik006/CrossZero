@@ -5,11 +5,19 @@
 
     public PlayersSign()
     {
-        PlayerNetwork.IsPlayerHost += SetInitialPlayersSign;
+        PlayerNetwork.IsPlayerHost += SetInitialPlayersSignForInternetGame;
         RoundModel.OnRoundEnd += SetPlayersSignAfterRound;
+
+        ButtonsHandler.OnTwoPlayersGameStart += SetInitialPlayerSignForTwoPlayersGame;
     }
 
-    private void SetInitialPlayersSign(bool isPlayerHost)
+    private void SetInitialPlayerSignForTwoPlayersGame()
+    {
+        MySign = FieldValue.Cross;
+        AnotherPlayerSign = FieldValue.Zero;
+    }
+
+    private void SetInitialPlayersSignForInternetGame(bool isPlayerHost)
     {
         MySign = isPlayerHost ? FieldValue.Cross : FieldValue.Zero;
         AnotherPlayerSign = isPlayerHost ? FieldValue.Zero : FieldValue.Cross;

@@ -1,46 +1,50 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-public interface IFieldContoller
+public class FieldController 
 {
-    void Enable();
-}
+    private List<FieldView> _fieldsView;
+    private FieldModel _fieldsModel;
 
-public class FieldController
-{
-    private protected List<FieldView> _fieldsView;
-    private protected FieldModel _fieldsModel;
+    private PlayersSign _playerSign;
+    private TurnModel _turnModel;
 
-    public FieldController(List<FieldView> fieldsView, FieldModel fieldsModel)
+    public FieldController(List<FieldView> fieldsView, FieldModel fieldsModel) 
     {
         _fieldsView = fieldsView;
         _fieldsModel = fieldsModel;
+
+        _playerSign = new PlayersSign();
+        _turnModel = new TurnModel();
 
         Enable();
     }
 
     private void Enable()
     {
-        //_fieldsView.ForEach(e => e.OnFieldTouched += ChangeFieldSign);
-
-        FieldView.OnButtonClick += ChangeFieldSign;
-        FieldModel.OnFieldValueChanged += ChangeView;
+        TurnModel.OnProveYourTurn += ChangeFieldSignIN;
+        TurnModel.OnProveAnotherPlayerTurn += ChangeFieldSignOUT;
+        FieldModel.OnFieldValueChanged += ChangeView;  
         RoundModel.OnRoundEnd += ClearFields;
     }
 
-    private void ChangeFieldSign(int fieldNumber)
+    private void ChangeFieldSignIN(int fieldNumber)
     {
-        _fieldsModel.ChangeMatrix(fieldNumber);
+        _fieldsModel.ChangeMatrix(fieldNumber,_playerSign.MySign);
     }
 
-    private protected void ChangeView(int fieldNumber,FieldValue fieldValue)
+    private void ChangeFieldSignOUT(int fieldNumber)
+    {
+        _fieldsModel.ChangeMatrix(fieldNumber, _playerSign.AnotherPlayerSign);
+    }
+
+    private void ChangeView(int fieldNumber, FieldValue fieldValue)
     {
         _fieldsView[fieldNumber].ChangeFieldColor(fieldValue);
     }
 
-    private protected void ClearFields(GameStatus gameStatus)
+    private void ClearFields(GameStatus gameStatus)
     {
         _fieldsModel.ClearMatrix();
-        _fieldsModel.ChangeSignOnNewRound();
         _fieldsView.ForEach(e => e.ClearField());
     }
 }
