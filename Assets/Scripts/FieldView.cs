@@ -22,9 +22,9 @@ public class FieldView : MonoBehaviour
         gameObject.GetComponent<Button>().onClick.AddListener(ButtonClick);
     }
 
-    private void ButtonClick() // rename Actions - one of them is for NetPlayer feedback
+    private void ButtonClick()
     {
-        OnButtonClick?.Invoke(_fieldNumber); // feedback for second player
+        OnButtonClick?.Invoke(_fieldNumber);
     }
     
     public void ChangeFieldColor(FieldValue fieldValue)

@@ -5,40 +5,47 @@ public class TurnModel
     private bool _isYourTurn = true;
     private bool _isAnotherPlayerTurn = false;
 
+    private bool _myLastRoundTurn = true;
+
     public static event Action<int> OnProveYourTurn;
     public static event Action<int> OnProveAnotherPlayerTurn;
 
     public TurnModel()
     {
-        PlayerNetwork.IsPlayerHost += SetTurn;
-        FieldModel.OnFieldValueChanged += ChangeTurnAfterFieldChanges;
-
-        RoundModel.OnRoundEnd += ChangeTurnAfterRoundEnd;
-
         ButtonsHandler.OnTwoPlayersGameStart += SetNoInternetGame;
         ButtonsHandler.OnLocalGameStart += SetInternetGame;
+
+        FieldView.OnButtonClick += ProoveChangesIfYourTurn;
+        PlayerNetwork.IsPlayerHost += SetTurn;
+        FieldModel.OnFieldValueChanged += ChangeTurnAfterFieldChanges;
+        TextMessageView.OnMessageStop += ChangeTurnAfterRoundEnd;
     }
 
     private void SetInternetGame()
-    {
-        FieldView.OnButtonClick += ProoveChangesIfYourTurn;
+    {  
         PlayerNetwork.OnGetClientFieldInfo += ProoveChangesIfAnotherPlayerTurn;
     }
 
     private void SetNoInternetGame()
     {
-        FieldView.OnButtonClick += ProoveChangesIfYourTurn;
         FieldView.OnButtonClick += ProoveChangesIfAnotherPlayerTurn;
     }
 
     private void SetTurn(bool isYourTurn)
     {
         _isYourTurn = isYourTurn;
-        _isAnotherPlayerTurn = !isYourTurn; 
+        _isAnotherPlayerTurn = !isYourTurn;
+
+        _myLastRoundTurn = _isYourTurn;
     }
 
-    private void ChangeTurnAfterRoundEnd(GameStatus gameStatus)
+    private void ChangeTurnAfterRoundEnd()
     {
+        //_isYourTurn = _isYourTurn == _myLastRoundTurn ? false : true;
+        //_isAnotherPlayerTurn = !_isYourTurn;
+
+        //_myLastRoundTurn = _isYourTurn;
+
         _isYourTurn = !_isYourTurn;
         _isAnotherPlayerTurn = !_isAnotherPlayerTurn;
     }

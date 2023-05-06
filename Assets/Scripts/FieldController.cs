@@ -25,6 +25,8 @@ public class FieldController
         TurnModel.OnProveAnotherPlayerTurn += ChangeFieldSignOUT;
         FieldModel.OnFieldValueChanged += ChangeView;  
         RoundModel.OnRoundEnd += ClearFields;
+
+        TextMessageView.OnMessageStop += ClearFields;
     }
 
     private void ChangeFieldSignIN(int fieldNumber)
@@ -40,6 +42,12 @@ public class FieldController
     private void ChangeView(int fieldNumber, FieldValue fieldValue)
     {
         _fieldsView[fieldNumber].ChangeFieldColor(fieldValue);
+    }
+
+    private void ClearFields()
+    {
+        _fieldsModel.ClearMatrix();
+        _fieldsView.ForEach(e => e.ClearField());
     }
 
     private void ClearFields(GameStatus gameStatus)

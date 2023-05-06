@@ -1,11 +1,6 @@
 using System.Collections.Generic;
 
-public interface IMessageModel
-{
-    void CreateMessage(GameStatus gameStatus);
-}
-
-public class TextMessageModel: IMessageModel
+public class TextMessageModel
 {
     private string _gameMessage;
     public string GameMessage { get => _gameMessage; }

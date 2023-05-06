@@ -1,7 +1,15 @@
-﻿public class PlayersSign
+﻿using System;
+
+public class PlayersSign
 {
-    public FieldValue MySign;
-    public FieldValue AnotherPlayerSign;
+    private FieldValue _mySign;
+    private FieldValue _anotherPlayerSign;
+
+    public FieldValue MySign { get => _mySign;}
+    public FieldValue AnotherPlayerSign { get => _anotherPlayerSign;}
+
+    public static Action<FieldValue> OnMySignChanged;
+    public static Action<FieldValue> OnAnotherPlayerSignChanged;
 
     public PlayersSign()
     {
@@ -13,19 +21,31 @@
 
     private void SetInitialPlayerSignForTwoPlayersGame()
     {
-        MySign = FieldValue.Cross;
-        AnotherPlayerSign = FieldValue.Zero;
+        _mySign = FieldValue.Cross;
+        _anotherPlayerSign = FieldValue.Zero;
+
+        InvokeChanges();
     }
 
     private void SetInitialPlayersSignForInternetGame(bool isPlayerHost)
     {
-        MySign = isPlayerHost ? FieldValue.Cross : FieldValue.Zero;
-        AnotherPlayerSign = isPlayerHost ? FieldValue.Zero : FieldValue.Cross;
+        _mySign = isPlayerHost ? FieldValue.Cross : FieldValue.Zero;
+        _anotherPlayerSign = isPlayerHost ? FieldValue.Zero : FieldValue.Cross;
+
+        InvokeChanges();
     }
 
     private void SetPlayersSignAfterRound(GameStatus gameStatus)
     {
-        MySign = MySign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
-        AnotherPlayerSign = AnotherPlayerSign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
+        _mySign = _mySign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
+        _anotherPlayerSign = _anotherPlayerSign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
+
+        InvokeChanges();
+    }
+
+    private void InvokeChanges()
+    {
+        OnMySignChanged?.Invoke(_mySign);
+        OnAnotherPlayerSignChanged?.Invoke(_anotherPlayerSign);
     }
 }
