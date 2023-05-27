@@ -1,11 +1,10 @@
 ﻿using System;
+using UnityEngine.UIElements;
 
 public class TurnModel
 {
     private bool _isYourTurn = true; //??
     private bool _isAnotherPlayerTurn = false; //??
-
-    private bool _myLastRoundTurn = true;
 
     public static event Action<int> OnProveYourTurn;
     public static event Action<int> OnProveAnotherPlayerTurn;
@@ -14,13 +13,15 @@ public class TurnModel
     {
         ButtonsHandler.OnTwoPlayersGameStart += SetNoInternetGame;
         ButtonsHandler.OnLocalGameStart += SetInternetGame;
+        ButtonsHandler.OnInternetGameStart += SetInternetGame;
 
         PlayerNetwork.IsPlayerHost += SetTurn;
 
-        FieldView.OnButtonClick += ProoveChangesIfYourTurn;
+        FieldView.OnButtonClick += ProoveChangesIfYourTurn; 
         
         FieldModel.OnFieldValueChanged += ChangeTurnAfterFieldChanges;
-        TextMessageView.OnMessageStop += ChangeTurnAfterRoundEnd;
+
+        PlayersSign.OnActualSignChanged += ChangeTurnAfterRoundEnd;
     }
 
     private void SetInternetGame()
@@ -37,19 +38,20 @@ public class TurnModel
     {
         _isYourTurn = isYourTurn;
         _isAnotherPlayerTurn = !isYourTurn;
-
-        _myLastRoundTurn = _isYourTurn;
     }
 
-    private void ChangeTurnAfterRoundEnd()
+    private void ChangeTurnAfterRoundEnd(FieldValue fieldValue) 
     {
-        //_isYourTurn = _isYourTurn == _myLastRoundTurn ? false : true;
-        //_isAnotherPlayerTurn = !_isYourTurn;
-
-        //_myLastRoundTurn = _isYourTurn;
-
-        _isYourTurn = !_isYourTurn;
-        _isAnotherPlayerTurn = !_isAnotherPlayerTurn;
+        if (fieldValue == FieldValue.Cross)
+        {
+            _isYourTurn = true;
+            _isAnotherPlayerTurn = false;
+        }
+        else if (fieldValue == FieldValue.Zero)
+        {
+            _isYourTurn = false;
+            _isAnotherPlayerTurn = true;
+        }
     }
 
     private void ChangeTurnAfterFieldChanges(int asd,FieldValue fieldValue)

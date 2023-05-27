@@ -11,11 +11,15 @@ public class PlayersSign
     public static Action<FieldValue> OnMySignChanged;
     public static Action<FieldValue> OnAnotherPlayerSignChanged;
 
+    public static Action<FieldValue> OnActualSignChanged;
+
+    private bool _isPlayerHost;
+
     public PlayersSign()
     {
-        PlayerNetwork.IsPlayerHost += SetInitialPlayersSignForInternetGame;
+        PlayerNetwork.IsPlayerHost += SetInitialPlayersSignForInternetGame; //?? maybe buttons will turn it
         ButtonsHandler.OnTwoPlayersGameStart += SetInitialPlayerSignForTwoPlayersGame;
-
+        
         RoundModel.OnRoundEnd += SetPlayersSignAfterRound;
     }
 
@@ -29,6 +33,8 @@ public class PlayersSign
 
     private void SetInitialPlayersSignForInternetGame(bool isPlayerHost)
     {
+        _isPlayerHost = isPlayerHost;
+
         _mySign = isPlayerHost ? FieldValue.Cross : FieldValue.Zero;
         _anotherPlayerSign = isPlayerHost ? FieldValue.Zero : FieldValue.Cross;
 
@@ -42,23 +48,34 @@ public class PlayersSign
         }
     }
 
-    private void SetPlayersSignAfterRound(GameStatus gameStatus) // remade this, it's wrong
+    private void SetPlayersSignAfterRound(GameStatus gameStatus) 
     {
         _mySign = _mySign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
         _anotherPlayerSign = _anotherPlayerSign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
 
-        InvokeChanges();
+        if (_isPlayerHost)
+        {
+            InvokeChanges();
+        }
+        else
+        {
+            InvokeAlternativeChanges();
+        }
     }
 
     private void InvokeChanges()
     {
         OnMySignChanged?.Invoke(_mySign);
         OnAnotherPlayerSignChanged?.Invoke(_anotherPlayerSign);
+
+        OnActualSignChanged?.Invoke(_mySign);
     }
 
     private void InvokeAlternativeChanges()
     {
         OnMySignChanged?.Invoke(_anotherPlayerSign);
         OnAnotherPlayerSignChanged?.Invoke(_mySign);
+
+        OnActualSignChanged?.Invoke(_mySign);
     }
 }

@@ -36,6 +36,7 @@ public class ButtonsHandler: MonoBehaviour
     {
         OnLocalGameStart += () => _exitButton.gameObject.SetActive(true);
         OnTwoPlayersGameStart += () => _exitButton.gameObject.SetActive(true);
+        OnInternetGameStart += () => _exitButton.gameObject.SetActive(true);
     }
 
 
