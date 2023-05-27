@@ -14,9 +14,9 @@ public class PlayersSign
     public PlayersSign()
     {
         PlayerNetwork.IsPlayerHost += SetInitialPlayersSignForInternetGame;
-        RoundModel.OnRoundEnd += SetPlayersSignAfterRound;
-
         ButtonsHandler.OnTwoPlayersGameStart += SetInitialPlayerSignForTwoPlayersGame;
+
+        RoundModel.OnRoundEnd += SetPlayersSignAfterRound;
     }
 
     private void SetInitialPlayerSignForTwoPlayersGame()
@@ -32,10 +32,17 @@ public class PlayersSign
         _mySign = isPlayerHost ? FieldValue.Cross : FieldValue.Zero;
         _anotherPlayerSign = isPlayerHost ? FieldValue.Zero : FieldValue.Cross;
 
-        InvokeChanges();
+        if (isPlayerHost)
+        {
+            InvokeChanges();
+        }
+        else
+        {
+            InvokeAlternativeChanges();
+        }
     }
 
-    private void SetPlayersSignAfterRound(GameStatus gameStatus)
+    private void SetPlayersSignAfterRound(GameStatus gameStatus) // remade this, it's wrong
     {
         _mySign = _mySign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
         _anotherPlayerSign = _anotherPlayerSign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
@@ -47,5 +54,11 @@ public class PlayersSign
     {
         OnMySignChanged?.Invoke(_mySign);
         OnAnotherPlayerSignChanged?.Invoke(_anotherPlayerSign);
+    }
+
+    private void InvokeAlternativeChanges()
+    {
+        OnMySignChanged?.Invoke(_anotherPlayerSign);
+        OnAnotherPlayerSignChanged?.Invoke(_mySign);
     }
 }

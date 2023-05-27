@@ -23,10 +23,11 @@ public class FieldController
     {
         TurnModel.OnProveYourTurn += ChangeFieldSignIN;
         TurnModel.OnProveAnotherPlayerTurn += ChangeFieldSignOUT;
-        FieldModel.OnFieldValueChanged += ChangeView;  
-        RoundModel.OnRoundEnd += ClearFields;
 
-        TextMessageView.OnMessageStop += ClearFields;
+        FieldModel.OnFieldValueChanged += ChangeView; 
+        
+        RoundModel.OnRoundEnd += ClearFields;
+        TextMessageView.OnMessageStop += ClearFields; //??? remade probably
     }
 
     private void ChangeFieldSignIN(int fieldNumber)

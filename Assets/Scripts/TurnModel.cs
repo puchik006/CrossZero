@@ -2,8 +2,8 @@
 
 public class TurnModel
 {
-    private bool _isYourTurn = true;
-    private bool _isAnotherPlayerTurn = false;
+    private bool _isYourTurn = true; //??
+    private bool _isAnotherPlayerTurn = false; //??
 
     private bool _myLastRoundTurn = true;
 
@@ -15,8 +15,10 @@ public class TurnModel
         ButtonsHandler.OnTwoPlayersGameStart += SetNoInternetGame;
         ButtonsHandler.OnLocalGameStart += SetInternetGame;
 
-        FieldView.OnButtonClick += ProoveChangesIfYourTurn;
         PlayerNetwork.IsPlayerHost += SetTurn;
+
+        FieldView.OnButtonClick += ProoveChangesIfYourTurn;
+        
         FieldModel.OnFieldValueChanged += ChangeTurnAfterFieldChanges;
         TextMessageView.OnMessageStop += ChangeTurnAfterRoundEnd;
     }
