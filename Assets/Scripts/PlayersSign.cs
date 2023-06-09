@@ -13,7 +13,7 @@ public class PlayersSign
 
     public static Action<FieldValue> OnActualSignChanged;
 
-    private bool _isPlayerHost;
+    private bool _isPlayerHost = true;
 
     public PlayersSign()
     {
