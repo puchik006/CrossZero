@@ -7,18 +7,12 @@ public class FieldView : MonoBehaviour
 {
     [SerializeField] private int _fieldNumber;
     private Image _image;
-    private Dictionary<FieldValue,Color> _colorForValue = new Dictionary<FieldValue, Color>()
-    {
-        {FieldValue.Empty,Color.white},
-        {FieldValue.Cross,Color.red},
-        {FieldValue.Zero,Color.blue},
-    };
 
     public static event Action<int> OnButtonClick;
 
     private void Start()
     {
-        _image = GetComponent<Image>();
+        _image = gameObject.GetComponent<Image>();
         gameObject.GetComponent<Button>().onClick.AddListener(ButtonClick);
     }
 
@@ -29,7 +23,9 @@ public class FieldView : MonoBehaviour
     
     public void ChangeFieldColor(FieldValue fieldValue)
     {
-        _image.color = _colorForValue[fieldValue];
+        //_image.color = _colorForValue[fieldValue];
+
+        _image.sprite = SignDictionary.GetImageWithFieldValue(fieldValue);
     }
 
     public void ClearField()

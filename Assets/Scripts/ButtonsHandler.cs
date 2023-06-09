@@ -17,13 +17,14 @@ public class ButtonsHandler: MonoBehaviour
     #endregion
 
     [SerializeField] private Button _exitButton;
-
     public static event Action OnExitButtonClick;
+
+    #region GameButtons
+
+    #endregion
 
     private void Start()
     {
-        Enable();
-
         _localGame.onClick.AddListener(() => OnLocalGameStart?.Invoke());
         _internetGame.onClick.AddListener(() => OnInternetGameStart?.Invoke());
         _aiGame.onClick.AddListener(() => OnAIGameStart?.Invoke());
@@ -32,12 +33,9 @@ public class ButtonsHandler: MonoBehaviour
         _exitButton.onClick.AddListener(() => OnExitButtonClick?.Invoke());
     }
 
-    private void Enable()
+    private void SetGameButtonsGameBehaviour()
     {
-        OnLocalGameStart += () => _exitButton.gameObject.SetActive(true);
-        OnTwoPlayersGameStart += () => _exitButton.gameObject.SetActive(true);
-        OnInternetGameStart += () => _exitButton.gameObject.SetActive(true);
-    }
 
+    }
 
 }

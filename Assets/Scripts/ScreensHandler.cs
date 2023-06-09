@@ -20,14 +20,14 @@ public class ScreensHandler : MonoBehaviour //rename
 
     private void SetActiveGameScreen()
     {
-        _gameScreen.SetActive(true);
+        //_gameScreen.SetActive(true);
         _mainMenuScreen.SetActive(false);
         _multiplayerScreen.SetActive(false);
     }
 
     private void SetActiveGameScreen(ulong aaa)
     {
-        _gameScreen.SetActive(true);
+        //_gameScreen.SetActive(true);
         _mainMenuScreen.SetActive(false);
         _multiplayerScreen.SetActive(false);
     }
