@@ -99,6 +99,7 @@ public class Round
 
 public class CrossZerroPlayer
 {
+    private string _name;
     private int _score;
     private bool _isMyTurn;
     private FieldValue _sign;
