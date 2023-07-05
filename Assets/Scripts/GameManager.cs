@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMessageView _textMessageView;
     private TextMessageController _textMessageController;
 
+    [SerializeField] private CellsButtonView _cellsButtonView;
+    private CellsButtonController _cellsButtonController;
+    private CellsButtonModel _cellsButtonModel;
+
     private void Start()
     { 
         _fieldsModel = new FieldModel();
@@ -37,5 +41,8 @@ public class GameManager : MonoBehaviour
 
         _textMessageModel = new TextMessageModel();
         _textMessageController = new TextMessageController(_textMessageView, _textMessageModel);
+
+        _cellsButtonModel = new CellsButtonModel();
+        _cellsButtonController = new CellsButtonController(_cellsButtonView, _cellsButtonModel);
     }
 }
