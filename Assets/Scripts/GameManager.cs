@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     private CellsButtonController _cellsButtonController;
     private CellsButtonModel _cellsButtonModel;
 
+    private RoundResults _roundResults;
+
     private void Start()
     { 
         _fieldsModel = new FieldModel();
@@ -44,5 +46,7 @@ public class GameManager : MonoBehaviour
 
         _cellsButtonModel = new CellsButtonModel();
         _cellsButtonController = new CellsButtonController(_cellsButtonView, _cellsButtonModel);
+
+        _roundResults = new RoundResults(_cellsButtonModel);
     }
 }

@@ -9,10 +9,19 @@ public class CellsButtonController
         _buttonsModel = buttonsModel;
 
         ButtonsHandler.OnTwoPlayersGameStart += SetTwoPlayersGame;
+
+        CellsButtonModel.OnCellsModelChanged += _buttonsView.SetCellImage;
+        RoundResults.OnRoundEnd += SetNewRound;
     }
 
     private void SetTwoPlayersGame()
     {
         _buttonsView.OnButtonClick += _buttonsModel.ChangeModel;
+    }
+
+    private void SetNewRound(GameStatus gameStatus)
+    {
+        _buttonsModel.ClearMatrix();
+        _buttonsView.ClearCells();
     }
 }

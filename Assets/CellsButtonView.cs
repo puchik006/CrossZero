@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class CellsButtonView : MonoBehaviour
 {
@@ -14,12 +15,22 @@ public class CellsButtonView : MonoBehaviour
         {
             button.Add(() => OnButtonClick?.Invoke(_buttons.IndexOf(button)));
         }
-
-        CellsButtonModel.OnButtonsModelChanged += ChangeSignWith;
     }
 
-    private void ChangeSignWith(int cellNumber, FieldValue fieldValue)
+    public void SetCellImage(int cellNumber, FieldValue fieldValue)
     {
         _buttons[cellNumber].GetComponent<Image>().sprite = SignDictionary.GetImageWithFieldValue(fieldValue);
     }
+
+    public void ClearCells()
+    {
+        _buttons.ForEach(e => e.GetComponent<Image>().sprite = SignDictionary.GetImageWithFieldValue(FieldValue.Empty));
+    }
+
+    public void ChangeCellColor(int cellNumber)
+    {
+        Color randomColor = new Color(Random.value, Random.value, Random.value,255);
+        _buttons[cellNumber].GetComponent<Image>().color = randomColor;
+    }
+
 }
