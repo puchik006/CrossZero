@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class CellsButtonView : MonoBehaviour
 {
     [SerializeField] private List<Button> _buttons;
-    public Action<int> OnButtonClick;
+    public event Action<int> OnButtonClick;
 
     private void Awake()
     {
-        foreach (var button in _buttons)
-        {
-            button.Add(() => OnButtonClick?.Invoke(_buttons.IndexOf(button)));
-        }
+        _buttons.ForEach((button) => button.Add(() => OnButtonClick?.Invoke(_buttons.IndexOf(button))));
     }
 
     public void SetCellImage(int cellNumber, FieldValue fieldValue)
@@ -22,15 +18,8 @@ public class CellsButtonView : MonoBehaviour
         _buttons[cellNumber].GetComponent<Image>().sprite = SignDictionary.GetImageWithFieldValue(fieldValue);
     }
 
-    public void ClearCells()
+    public void SetCellColor(int cellNumber,Color color)
     {
-        _buttons.ForEach(e => e.GetComponent<Image>().sprite = SignDictionary.GetImageWithFieldValue(FieldValue.Empty));
+        _buttons[cellNumber].GetComponent<Image>().color = color;
     }
-
-    public void ChangeCellColor(int cellNumber)
-    {
-        Color randomColor = new Color(Random.value, Random.value, Random.value,255);
-        _buttons[cellNumber].GetComponent<Image>().color = randomColor;
-    }
-
 }

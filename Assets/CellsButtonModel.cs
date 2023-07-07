@@ -18,6 +18,11 @@ public class CellsButtonModel
     public void ClearMatrix()
     {
         Array.Clear(_data, 0, _data.Length);
+
+        for (int i = 0; i < _data.Length; i++)
+        {
+            OnCellsModelChanged?.Invoke(i, FieldValue.Empty);
+        }
     }
 
     private FieldValue GetNextValue()

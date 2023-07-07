@@ -6796,7 +6796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cross: {fileID: 21300000, guid: 12ebf258060752542b08fa3558c09cae, type: 3}
   _zero: {fileID: 21300000, guid: 01ee62a32807bb845b76c3aaed1324d7, type: 3}
-  _empty: {fileID: 0}
+  _empty: {fileID: 21300000, guid: 0afd760cc5de3f34aab93eecd46b1e17, type: 3}
 --- !u!4 &1228622357
 Transform:
   m_ObjectHideFlags: 0

@@ -22,6 +22,5 @@ public class CellsButtonController
     private void SetNewRound(GameStatus gameStatus)
     {
         _buttonsModel.ClearMatrix();
-        _buttonsView.ClearCells();
     }
 }
