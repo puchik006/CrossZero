@@ -10872,8 +10872,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f09996e4f2be34fa3e1aeb223f6e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerOneScore: {fileID: 446943317971705757}
-  _playerTwoScore: {fileID: 446943316825689626}
+  _playerOneScore: {fileID: 859169906}
+  _playerTwoScore: {fileID: 1190201052}
 --- !u!4 &446943317406755339
 Transform:
   m_ObjectHideFlags: 0

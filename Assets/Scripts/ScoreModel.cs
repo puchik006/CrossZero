@@ -1,17 +1,8 @@
 using System;
+using TMPro;
+using UnityEngine;
 
-public interface IScoreModel
-{
-    int PlayerOneScore { get; }
-    int PlayerTwoScore { get; }
-
-    event Action<string, string> OnScoreChanged;
-
-    void ChangePlayerScore(GameStatus gameStatus);
-    void ClearPlayersScore();
-}
-
-public class ScoreModel : IScoreModel
+public class ScoreModel
 {
     private int _playerOneScore;
     private int _playerTwoScore;
@@ -54,3 +45,5 @@ public class ScoreModel : IScoreModel
         _playerTwoScore = 0;
     }
 }
+
+

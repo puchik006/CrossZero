@@ -1,19 +1,14 @@
 public class ScoreController
 {
     private ScoreView _scoreView;
-    private IScoreModel _scoreModel;
+    private ScoreModel _scoreModel;
 
-    public ScoreController(ScoreView scoreView, IScoreModel scoreModel)
+    public ScoreController(ScoreView scoreView, ScoreModel scoreModel)
     {
         _scoreView = scoreView;
         _scoreModel = scoreModel;
 
-        Enable();
-    }
-
-    private void Enable()
-    {
-        RoundModel.OnRoundEnd += _scoreModel.ChangePlayerScore;
+        RoundResults.OnRoundEnd += _scoreModel.ChangePlayerScore;
         _scoreModel.OnScoreChanged += _scoreView.ChangePlayerScore;
     }
 }

@@ -5,12 +5,12 @@ public class CellsButtonModel
 {
     private FieldValue[] _data = new FieldValue[9];
     public FieldValue[] Data => _data;
+    
     public static event Action<int, FieldValue> OnCellsModelChanged;
 
     public void ChangeModel(int number)
     {
         if (_data[number] != FieldValue.Empty) return;
-
         _data[number] = GetNextValue();
         OnCellsModelChanged?.Invoke(number, _data[number]);
     }

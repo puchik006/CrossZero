@@ -10,7 +10,7 @@ public class RoundResults
     {
         _model = model;
 
-        CellsButtonModel.OnCellsModelChanged += CheckRoundResult;
+       CellsButtonModel.OnCellsModelChanged += CheckRoundResult;
     }
 
     private void CheckRoundResult(int cellNumber, FieldValue fieldValue)
