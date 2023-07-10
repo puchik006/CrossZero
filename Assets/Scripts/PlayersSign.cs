@@ -2,16 +2,16 @@
 
 public class PlayersSign
 {
-    private FieldValue _mySign;
-    private FieldValue _anotherPlayerSign;
+    private CellValue _mySign;
+    private CellValue _anotherPlayerSign;
 
-    public FieldValue MySign { get => _mySign;}
-    public FieldValue AnotherPlayerSign { get => _anotherPlayerSign;}
+    public CellValue MySign { get => _mySign;}
+    public CellValue AnotherPlayerSign { get => _anotherPlayerSign;}
 
-    public static Action<FieldValue> OnMySignChanged;
-    public static Action<FieldValue> OnAnotherPlayerSignChanged;
+    public static Action<CellValue> OnMySignChanged;
+    public static Action<CellValue> OnAnotherPlayerSignChanged;
 
-    public static Action<FieldValue> OnActualSignChanged;
+    public static Action<CellValue> OnActualSignChanged;
 
     private bool _isPlayerHost = true;
 
@@ -25,8 +25,8 @@ public class PlayersSign
 
     private void SetInitialPlayerSignForTwoPlayersGame()
     {
-        _mySign = FieldValue.Cross;
-        _anotherPlayerSign = FieldValue.Zero;
+        _mySign = CellValue.Cross;
+        _anotherPlayerSign = CellValue.Zero;
 
         InvokeChanges();
     }
@@ -35,8 +35,8 @@ public class PlayersSign
     {
         _isPlayerHost = isPlayerHost;
 
-        _mySign = isPlayerHost ? FieldValue.Cross : FieldValue.Zero;
-        _anotherPlayerSign = isPlayerHost ? FieldValue.Zero : FieldValue.Cross;
+        _mySign = isPlayerHost ? CellValue.Cross : CellValue.Zero;
+        _anotherPlayerSign = isPlayerHost ? CellValue.Zero : CellValue.Cross;
 
         if (isPlayerHost)
         {
@@ -50,8 +50,8 @@ public class PlayersSign
 
     private void SetPlayersSignAfterRound(GameStatus gameStatus) 
     {
-        _mySign = _mySign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
-        _anotherPlayerSign = _anotherPlayerSign == FieldValue.Cross ? FieldValue.Zero : FieldValue.Cross;
+        _mySign = _mySign == CellValue.Cross ? CellValue.Zero : CellValue.Cross;
+        _anotherPlayerSign = _anotherPlayerSign == CellValue.Cross ? CellValue.Zero : CellValue.Cross;
 
         if (_isPlayerHost)
         {

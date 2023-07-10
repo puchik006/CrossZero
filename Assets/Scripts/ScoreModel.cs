@@ -1,13 +1,11 @@
 using System;
-using TMPro;
-using UnityEngine;
 
 public class ScoreModel
 {
     private int _playerOneScore;
     private int _playerTwoScore;
     private bool _isFirstPlayerPlayedByCross = true;
-    public event Action<string,string> OnScoreChanged;
+    public event Action<string,string> ScoreChanged;
 
     public int PlayerOneScore { get => _playerOneScore; }
     public int PlayerTwoScore { get => _playerTwoScore; }
@@ -36,7 +34,7 @@ public class ScoreModel
         }
 
         _isFirstPlayerPlayedByCross = !_isFirstPlayerPlayedByCross;
-        OnScoreChanged?.Invoke(PlayerOneScore.ToString(), PlayerTwoScore.ToString());
+        ScoreChanged?.Invoke(PlayerOneScore.ToString(), PlayerTwoScore.ToString());
     }
 
     public void ClearPlayersScore()

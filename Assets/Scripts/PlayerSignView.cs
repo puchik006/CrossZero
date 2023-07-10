@@ -8,11 +8,11 @@ public class PlayerSignView : MonoBehaviour
     [SerializeField] private Image _playerOneSign;
     [SerializeField] private Image _playerTwoSign;
 
-    private Dictionary<FieldValue, Color> _colorForValue = new Dictionary<FieldValue, Color>() // same as in FieldView
+    private Dictionary<CellValue, Color> _colorForValue = new Dictionary<CellValue, Color>() // same as in FieldView
     {
-        {FieldValue.Empty,Color.white},
-        {FieldValue.Cross,Color.red},
-        {FieldValue.Zero,Color.blue},
+        {CellValue.Empty,Color.white},
+        {CellValue.Cross,Color.red},
+        {CellValue.Zero,Color.blue},
     };
 
     private void Start()
@@ -21,12 +21,12 @@ public class PlayerSignView : MonoBehaviour
         PlayersSign.OnAnotherPlayerSignChanged += ChangeSecondPlayerSign;
     }
 
-    private void ChangeFirstPlayerSign(FieldValue fieldValue)
+    private void ChangeFirstPlayerSign(CellValue fieldValue)
     {
         _playerOneSign.color = _colorForValue[fieldValue];
     }
 
-    private void ChangeSecondPlayerSign(FieldValue fieldValue)
+    private void ChangeSecondPlayerSign(CellValue fieldValue)
     {
         _playerTwoSign.color = _colorForValue[fieldValue];
     }

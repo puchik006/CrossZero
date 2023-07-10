@@ -9,6 +9,6 @@ public class ScoreController
         _scoreModel = scoreModel;
 
         RoundResults.OnRoundEnd += _scoreModel.ChangePlayerScore;
-        _scoreModel.OnScoreChanged += _scoreView.ChangePlayerScore;
+        _scoreModel.ScoreChanged += _scoreView.ChangePlayerScore;
     }
 }

@@ -21,7 +21,7 @@ public class FieldView : MonoBehaviour
         OnButtonClick?.Invoke(_fieldNumber);
     }
     
-    public void ChangeFieldColor(FieldValue fieldValue)
+    public void ChangeFieldColor(CellValue fieldValue)
     {
         //_image.color = _colorForValue[fieldValue];
 

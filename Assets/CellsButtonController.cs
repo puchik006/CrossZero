@@ -16,7 +16,7 @@ public class CellsButtonController
 
     private void SetTwoPlayersGame()
     {
-        _buttonsView.OnButtonClick += _buttonsModel.ChangeModel;
+        _buttonsView.ButtonClicked += _buttonsModel.ChangeModel;
     }
 
     private void SetNewRound(GameStatus gameStatus)

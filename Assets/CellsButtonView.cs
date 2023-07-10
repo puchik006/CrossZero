@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class CellsButtonView : MonoBehaviour
 {
     [SerializeField] private List<Button> _buttons;
-    public event Action<int> OnButtonClick;
+    public event Action<int> ButtonClicked;
 
     private void Awake()
     {
-        _buttons.ForEach((button) => button.Add(() => OnButtonClick?.Invoke(_buttons.IndexOf(button))));
+        _buttons.ForEach((button) => button.Add(() => ButtonClicked?.Invoke(_buttons.IndexOf(button))));
     }
 
-    public void SetCellImage(int cellNumber, FieldValue fieldValue)
+    public void SetCellImage(int cellNumber, CellValue fieldValue)
     {
         _buttons[cellNumber].GetComponent<Image>().sprite = SignDictionary.GetImageWithFieldValue(fieldValue);
     }

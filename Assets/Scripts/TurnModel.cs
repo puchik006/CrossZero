@@ -40,21 +40,21 @@ public class TurnModel
         _isAnotherPlayerTurn = !isYourTurn;
     }
 
-    private void ChangeTurnAfterRoundEnd(FieldValue fieldValue) 
+    private void ChangeTurnAfterRoundEnd(CellValue fieldValue) 
     {
-        if (fieldValue == FieldValue.Cross)
+        if (fieldValue == CellValue.Cross)
         {
             _isYourTurn = true;
             _isAnotherPlayerTurn = false;
         }
-        else if (fieldValue == FieldValue.Zero)
+        else if (fieldValue == CellValue.Zero)
         {
             _isYourTurn = false;
             _isAnotherPlayerTurn = true;
         }
     }
 
-    private void ChangeTurnAfterFieldChanges(int asd,FieldValue fieldValue)
+    private void ChangeTurnAfterFieldChanges(int asd,CellValue fieldValue)
     {
         _isYourTurn = !_isYourTurn;
         _isAnotherPlayerTurn = !_isAnotherPlayerTurn;

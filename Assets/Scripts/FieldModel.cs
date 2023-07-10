@@ -2,14 +2,14 @@ using System;
 
 public class FieldModel 
 {
-    private FieldValue[] _data = new FieldValue[9] {0,0,0,0,0,0,0,0,0};
-    public FieldValue[] Data { get => _data; }
+    private CellValue[] _data = new CellValue[9] {0,0,0,0,0,0,0,0,0};
+    public CellValue[] Data { get => _data; }
 
-    public static event Action<int, FieldValue> OnFieldValueChanged;
+    public static event Action<int, CellValue> OnFieldValueChanged;
 
-    public void ChangeMatrix(int number, FieldValue fieldValue) 
+    public void ChangeMatrix(int number, CellValue fieldValue) 
     {
-        if (_data[number] != FieldValue.Empty) return;
+        if (_data[number] != CellValue.Empty) return;
 
         _data[number] = fieldValue;
         OnFieldValueChanged?.Invoke(number, Data[number]);

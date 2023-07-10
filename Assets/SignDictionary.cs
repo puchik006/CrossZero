@@ -6,20 +6,22 @@ public class SignDictionary: MonoBehaviour
     [SerializeField] private Sprite _cross;
     [SerializeField] private Sprite _zero;
     [SerializeField] private Sprite _empty;
+    [SerializeField] private Sprite _exit;
 
-    private static Dictionary<FieldValue, Sprite> _imageToFieldValue;
+    private static Dictionary<CellValue, Sprite> _imageToFieldValue;
    
     private void Start()
     {
-        _imageToFieldValue = new Dictionary<FieldValue, Sprite>()
+        _imageToFieldValue = new Dictionary<CellValue, Sprite>()
         {
-            {FieldValue.Empty,_empty},
-            {FieldValue.Cross,_cross},
-            {FieldValue.Zero,_zero},
+            {CellValue.Empty,_empty},
+            {CellValue.Cross,_cross},
+            {CellValue.Zero,_zero},
+            {CellValue.Exit,_exit},
         };
     }
 
-    public static Sprite GetImageWithFieldValue(FieldValue fieldValue)
+    public static Sprite GetImageWithFieldValue(CellValue fieldValue)
     {
         return _imageToFieldValue[fieldValue];
     }

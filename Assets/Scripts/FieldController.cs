@@ -40,7 +40,7 @@ public class FieldController
         _fieldsModel.ChangeMatrix(fieldNumber, _playerSign.AnotherPlayerSign);
     }
 
-    private void ChangeView(int fieldNumber, FieldValue fieldValue)
+    private void ChangeView(int fieldNumber, CellValue fieldValue)
     {
         _fieldsView[fieldNumber].ChangeFieldColor(fieldValue);
     }

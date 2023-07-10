@@ -13,9 +13,9 @@ public class RoundResults
        CellsButtonModel.OnCellsModelChanged += CheckRoundResult;
     }
 
-    private void CheckRoundResult(int cellNumber, FieldValue fieldValue)
+    private void CheckRoundResult(int cellNumber, CellValue fieldValue)
     {
-        FieldValue[] data = _model.Data;
+        CellValue[] data = _model.Data;
 
         int[][] winningCombinations = new int[][]
         {
@@ -26,14 +26,14 @@ public class RoundResults
 
         foreach (var combination in winningCombinations)
         {
-            if (data[combination[0]] != FieldValue.Empty && data[combination[0]] == data[combination[1]] && data[combination[0]] == data[combination[2]])
+            if (data[combination[0]] != CellValue.Empty && data[combination[0]] == data[combination[1]] && data[combination[0]] == data[combination[2]])
             {
-                OnRoundEnd?.Invoke(data[combination[0]] == FieldValue.Cross ? GameStatus.CrossWin : GameStatus.ZeroWin);
+                OnRoundEnd?.Invoke(data[combination[0]] == CellValue.Cross ? GameStatus.CrossWin : GameStatus.ZeroWin);
                 return;
             }
         }
 
-        if (!data.Contains(FieldValue.Empty))
+        if (!data.Contains(CellValue.Empty))
         {
             OnRoundEnd?.Invoke(GameStatus.Draw);
             return;
