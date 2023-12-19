@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private FieldModel _fieldsModel;
-    [SerializeField] private List<FieldView> _fieldsView;
-    private FieldController _fieldController;
+    [SerializeField] private CellsButtonView _cellsButtonView;
+    private CellsButtonController _cellsButtonController;
+    private CellsButtonModel _cellsButtonModel;
 
     private RoundModel _roundModel;
 
@@ -21,20 +21,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMessageView _textMessageView;
     private TextMessageController _textMessageController;
 
-    [SerializeField] private CellsButtonView _cellsButtonView;
-    private CellsButtonController _cellsButtonController;
-    private CellsButtonModel _cellsButtonModel;
-
     private RoundResults _roundResults;
 
     private void Start()
     { 
-        _fieldsModel = new FieldModel();
-
-        _fieldController = new FieldController(_fieldsView, _fieldsModel);
-
-        _roundModel = new RoundModel(_fieldsModel);
-
         _playerNameModel = new PlayerNameModel();
         _playerNameController = new PlayerNameController(_playerNameModel, _playerNameView);
 
