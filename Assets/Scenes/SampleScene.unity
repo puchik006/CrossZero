@@ -1060,8 +1060,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 031504f75946bcf4d9c3c01fbd478017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _playerOneSign: {fileID: 0}
   _playerTwoSign: {fileID: 0}
+=======
+  _playerOneSign: {fileID: 1004293542}
+  _playerTwoSign: {fileID: 2078673270}
+>>>>>>> Stashed changes
 --- !u!4 &324243214
 Transform:
   m_ObjectHideFlags: 0
@@ -2229,7 +2234,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0ee5ed39a8f0a4e9050535c233552a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _gameScreen: {fileID: 844574886}
+=======
+  _gameScreen: {fileID: 0}
+>>>>>>> Stashed changes
   _mainMenuScreen: {fileID: 573595822}
   _multiplayerScreen: {fileID: 1755307939}
 --- !u!4 &497138263
@@ -9162,7 +9171,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14b075db415ddc44ba076c9a5e95b67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _cellsButtonView: {fileID: 347386263}
+=======
+  _fieldsView:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+>>>>>>> Stashed changes
   _scoreView: {fileID: 446943317406755338}
   _playerNameView: {fileID: 1389487679}
   _textMessageView: {fileID: 446943317609912405}
