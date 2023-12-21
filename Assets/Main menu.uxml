@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/MenuButton.uss?fileID=7433441132597879392&amp;guid=a51b3d583c6a0ed4fb07d68bada930d4&amp;type=3#MenuButton" />
-    <ui:VisualElement style="height: 207px; width: 223px; justify-content: center; align-items: center; background-color: rgba(140, 139, 176, 255);">
-        <ui:Button text="Start game" display-tooltip-when-elided="true" class="MenuButton" />
-        <ui:Button text="Settings" display-tooltip-when-elided="true" class="MenuButton" style="justify-content: center; align-items: auto; display: flex; visibility: visible; overflow: hidden; -unity-text-outline-width: 0; height: 29px; width: 129px; font-size: 18px;" />
-    </ui:VisualElement>
-</ui:UXML>
