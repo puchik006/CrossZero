@@ -141,11 +141,13 @@ Material:
     - _DstBlend: 0
     - _EnableExternalAlpha: 0
     - _EnvironmentReflections: 1
+    - _Float: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Hight: 0.95
     - _ISCIRCLE: 1
+    - _LeftCrossLineLength: 4.0164247
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -153,6 +155,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RightCrossLineLength: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
